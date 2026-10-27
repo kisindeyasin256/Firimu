@@ -1,2251 +1,1082 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Movies Ug - Stream & Download Translated Movies</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="manifest" href="/manifest.json">
-        <meta name="theme-color" content="#0e1117">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudyReel — Translated Movies & TV Shows</title>
 
-        <style>
-            /* ========================================================
-               MODERN PRO STREAMING THEME & 10-FOOT TV TOKENS
-               ======================================================== */
-            :root {
-                --bg-canvas: #0b0e14;
-                --surface-card: #151a23;
-                --surface-elevated: #1c222e;
-                --border-subtle: rgba(255, 255, 255, 0.08);
-                --border-highlight: rgba(255, 255, 255, 0.16);
-                --brand-primary: #e50914;
-                --brand-gradient: linear-gradient(135deg, #ff2a54 0%, #ff5e3a 100%);
-                --text-main: #f0f6fc;
-                --text-muted: #8b949e;
-                --radius-sm: 6px;
-                --radius-md: 10px;
-                --radius-lg: 14px;
-            }
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-            html,
-            body {
-                overflow-x: hidden;
-                max-width: 100vw;
-                width: 100%;
-            }
-
-            body {
-                padding-top: 80px;
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                background-color: var(--bg-canvas);
-                color: var(--text-main);
-                letter-spacing: -0.1px;
-            }
-
-            /* TV Overscan & Safe Area protection */
-            @media (min-width: 992px) {
-                .container {
-                    width: 93%;
-                    max-width: 1580px;
-                }
-            }
-            @media (min-width: 768px) and (max-width: 991px) {
-                .container {
-                    width: 95%;
-                }
-            }
-
-            /* 10-Foot UI Spatial Navigation Focus Glow & Zoom */
-            .tv-focused,
-            a:focus-visible,
-            button:focus-visible,
-            input:focus-visible,
-            select:focus-visible {
-                outline: none !important;
-                transform: scale(1.06) !important;
-                box-shadow: 0 0 0 3.5px #ff2a54, 0 14px 35px rgba(255, 42, 84, 0.4) !important;
-                z-index: 100 !important;
-                transition: transform 0.16s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.16s cubic-bezier(0.2, 0, 0, 1) !important;
-            }
-
-            /* TV Mode indicator badge */
-            .tv-badge {
-                display: none;
-                background: var(--brand-gradient);
-                color: #fff;
-                font-size: 10px;
-                padding: 3px 8px;
-                border-radius: 4px;
-                font-weight: 800;
-                margin-left: 10px;
-                vertical-align: middle;
-                letter-spacing: 0.5px;
-                box-shadow: 0 2px 8px rgba(255,42,84,0.4);
-            }
-            body.tv-mode .tv-badge {
-                display: inline-block;
-            }
-
-            /* Frosted Glass Floating Navbar */
-            .navbar-inverse {
-                background: rgba(11, 14, 20, 0.88);
-                backdrop-filter: blur(18px);
-                -webkit-backdrop-filter: blur(18px);
-                border: none;
-                border-bottom: 1px solid var(--border-subtle);
-                box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-                transition: all 0.3s ease;
-            }
-
-            .navbar-inverse .navbar-brand {
-                font-weight: 900;
-                font-size: 24px;
-                letter-spacing: -0.5px;
-                color: #ffffff !important;
-                display: flex;
-                align-items: center;
-                padding: 18px 15px;
-            }
-
-            .navbar-inverse .navbar-brand .logo-highlight {
-                background: var(--brand-gradient);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                margin-left: 2px;
-            }
-
-            .navbar-inverse .navbar-nav > li > a {
-                color: var(--text-muted) !important;
-                font-weight: 600;
-                font-size: 13px;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                padding: 22px 14px;
-                transition: color 0.2s ease, background-color 0.2s ease;
-            }
-
-            .navbar-inverse .navbar-nav > li > a:hover,
-            .navbar-inverse .navbar-nav > li > a.tv-focused {
-                color: #ffffff !important;
-                background-color: transparent !important;
-            }
-
-            .navbar-inverse .navbar-nav > .active > a,
-            .navbar-inverse .navbar-nav > .active > a:focus,
-            .navbar-inverse .navbar-nav > .active > a:hover {
-                background-color: transparent !important;
-                color: #ffffff !important;
-                font-weight: 700;
-                position: relative;
-            }
-
-            .navbar-inverse .navbar-nav > .active > a::after {
-                content: "";
-                position: absolute;
-                bottom: 10px;
-                left: 14px;
-                right: 14px;
-                height: 3px;
-                border-radius: 2px;
-                background: var(--brand-gradient);
-            }
-
-            /* Modern Pill Search Input */
-            .search-box-wrapper {
-                position: relative;
-                display: flex;
-                align-items: center;
-            }
-
-            .search-input {
-                border-radius: 30px !important;
-                background: rgba(255, 255, 255, 0.06) !important;
-                border: 1px solid var(--border-subtle) !important;
-                color: #fff !important;
-                padding-left: 38px !important;
-                padding-right: 15px !important;
-                width: 220px;
-                height: 38px;
-                font-size: 13px;
-                transition: width 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            .search-icon-inside {
-                position: absolute;
-                left: 14px;
-                color: var(--text-muted);
-                pointer-events: none;
-                font-size: 13px;
-            }
-
-            .search-input:focus,
-            .search-input.tv-focused {
-                width: 300px;
-                border-color: #ff2a54 !important;
-                background: rgba(255, 255, 255, 0.1) !important;
-                outline: none;
-                box-shadow: 0 0 0 3px rgba(255, 42, 84, 0.3) !important;
-            }
-
-            /* Dark Glass Dropdown Menu */
-            .dropdown-menu {
-                background-color: rgba(21, 26, 35, 0.95);
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
-                border: 1px solid var(--border-subtle);
-                box-shadow: 0 16px 40px rgba(0,0,0,0.7);
-                border-radius: var(--radius-md);
-                padding: 8px 0;
-                margin-top: 5px;
-            }
-
-            .dropdown-menu > li > a {
-                color: var(--text-main);
-                font-weight: 600;
-                font-size: 13px;
-                padding: 10px 22px;
-                transition: all 0.2s ease;
-            }
-
-            .dropdown-menu > li > a:hover,
-            .dropdown-menu > li > a.tv-focused {
-                background: var(--brand-gradient);
-                color: #ffffff;
-            }
-
-            /* Pro Global Components */
-            .glass-panel {
-                background: var(--surface-card);
-                border: 1px solid var(--border-subtle);
-                border-radius: var(--radius-lg);
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
-                padding: 30px;
-                color: var(--text-main);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-            }
-
-            .btn-brand-pro {
-                background: var(--brand-gradient);
-                color: #ffffff !important;
-                font-weight: 700;
-                border: none;
-                border-radius: 30px;
-                padding: 12px 26px;
-                font-size: 14px;
-                letter-spacing: 0.3px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                box-shadow: 0 6px 20px rgba(255, 42, 84, 0.35);
-                transition: all 0.22s cubic-bezier(0.2, 0, 0, 1);
-                text-decoration: none !important;
-            }
-            .btn-brand-pro:hover,
-            .btn-brand-pro.tv-focused {
-                transform: translateY(-2px) scale(1.03);
-                box-shadow: 0 10px 28px rgba(255, 42, 84, 0.55);
-                color: #ffffff !important;
-            }
-
-            .btn-glass {
-                background: rgba(255, 255, 255, 0.08);
-                color: var(--text-main) !important;
-                border: 1px solid var(--border-highlight);
-                border-radius: 30px;
-                padding: 12px 24px;
-                font-weight: 600;
-                font-size: 14px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                transition: all 0.22s ease;
-                text-decoration: none !important;
-            }
-            .btn-glass:hover,
-            .btn-glass.tv-focused {
-                background: rgba(255, 255, 255, 0.16);
-                border-color: rgba(255, 255, 255, 0.3);
-                color: #fff !important;
-                transform: translateY(-2px);
-            }
-
-            /* Custom Dark Scrollbar */
-            ::-webkit-scrollbar {
-                width: 8px;
-                height: 8px;
-            }
-            ::-webkit-scrollbar-track {
-                background: #0b0e14;
-            }
-            ::-webkit-scrollbar-thumb {
-                background: #21262d;
-                border-radius: 4px;
-            }
-            ::-webkit-scrollbar-thumb:hover {
-                background: #ff2a54;
-            }
-
-            /* Mobile Navigation Drawer Enhancements */
-            @media (max-width: 767px) {
-                body {
-                    padding-top: 70px;
-                }
-                .navbar-collapse {
-                    background: rgba(11, 14, 20, 0.98) !important;
-                    backdrop-filter: blur(20px);
-                    -webkit-backdrop-filter: blur(20px);
-                    border-top: 1px solid var(--border-subtle) !important;
-                    border-bottom: 1px solid var(--border-subtle) !important;
-                    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
-                    padding: 10px 18px 20px;
-                    max-height: 85vh;
-                    overflow-y: auto;
-                }
-                .navbar-inverse .navbar-nav > li > a {
-                    padding: 14px 10px;
-                    font-size: 14px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                }
-                .navbar-inverse .navbar-nav > li:last-child > a {
-                    border-bottom: none;
-                }
-                .navbar-inverse .navbar-nav > .active > a::after {
-                    bottom: 6px;
-                    left: 10px;
-                    right: auto;
-                    width: 30px;
-                }
-                .search-box-wrapper {
-                    width: 100%;
-                    margin-top: 12px;
-                }
-                .search-input,
-                .search-input:focus,
-                .search-input.tv-focused {
-                    width: 100% !important;
-                    max-width: 100% !important;
-                }
-                .navbar-form {
-                    margin: 10px 0 5px 0;
-                    padding: 0;
-                    border: none;
-                    box-shadow: none;
-                }
-            }
-        </style>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" type="7e3fe54358f8f78a2df1fa08-text/javascript"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type="7e3fe54358f8f78a2df1fa08-text/javascript"></script>
-        <!--<script src="/assets/js/tv-nav.js" defer></script>-->
-    </head>
-    <body>
-
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index.php">
-                        MOVIES<span class="logo-highlight">UG</span>
-                        <span class="tv-badge"><i class="fa fa-television"></i> TV</span>
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="main-nav">
-                    <ul class="nav navbar-nav">
-                        <li class="">
-                            <a href="index.php">Home</a>
-                        </li>
-                        <li class="dropdown active">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Genres <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="index.php?genre=Action"><i class="fa fa-fire text-danger"></i> &nbsp; Action</a></li>
-                                <li><a href="index.php?genre=Adventure"><i class="fa fa-compass text-warning"></i> &nbsp; Adventure</a></li>
-                                <li><a href="index.php?genre=Animation"><i class="fa fa-magic text-info"></i> &nbsp; Animation</a></li>
-                                <li><a href="index.php?genre=Comedy"><i class="fa fa-smile-o text-success"></i> &nbsp; Comedy</a></li>
-                                <li><a href="index.php?genre=Drama"><i class="fa fa-theater-masks"></i> &nbsp; Drama</a></li>
-                                <li><a href="index.php?genre=History"><i class="fa fa-skull"></i> &nbsp; History</a></li>                                
-                                <li><a href="index.php?genre=Horror"><i class="fa fa-skull"></i> &nbsp; Horror</a></li>
-                                <li><a href="index.php?genre=Romance"><i class="fa fa-heart text-danger"></i> &nbsp; Romance</a></li>
-                                <li><a href="index.php?genre=Sci-Fi"><i class="fa fa-rocket text-primary"></i> &nbsp; Sci-Fi</a></li>
-                                <li><a href="index.php?genre=Thriller"><i class="fa fa-bolt text-warning"></i> &nbsp; Thriller</a></li>
-                                <li class="divider" style="background-color:rgba(255,255,255,0.08);"></li>
-                                <li><a href="index.php?genre=Series"><i class="fa fa-television text-danger"></i> &nbsp; <strong>TV Series</strong></a></li>
-                                <li><a href="index.php?genre=Free"><i class="fa fa-gift text-success"></i> &nbsp; <strong>Free Movies</strong></a></li>
-                            </ul>
-                        </li>
-
-                                                    <li class=""><a href="login.php"><i class="fa fa-sign-in"></i> Login</a></li>
-                                            </ul>
-
-                    <form class="navbar-form navbar-right" action="index.php" method="GET">
-                        <div class="form-group search-box-wrapper">
-                            <i class="fa fa-search search-icon-inside"></i>
-                            <input type="text" name="search" class="form-control search-input" placeholder="Search titles, actors, VJs..." value="">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </nav>
-
-<style>
+  <style>
     /* =========================================================
-       PRO STREAMING HOMEPAGE STYLING
+       DESIGN TOKENS
+       ========================================================= */
+    :root {
+      --bg-canvas: #0b0e14;
+      --surface-card: #151a23;
+      --border-subtle: rgba(255,255,255,0.08);
+      --border-highlight: rgba(255,255,255,0.16);
+      --brand-gradient: linear-gradient(135deg, #14b8a6 0%, #7c3aed 100%);
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    html, body { overflow-x: hidden; max-width: 100vw; width: 100%; }
+    body {
+      padding-top: 80px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      letter-spacing: -0.1px;
+    }
+
+    @media (min-width: 992px) { .container { width: 93%; max-width: 1580px; } }
+    @media (min-width: 768px) and (max-width: 991px) { .container { width: 95%; } }
+
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: none !important;
+      transform: scale(1.04) !important;
+      box-shadow: 0 0 0 3px #14b8a6, 0 14px 35px rgba(20,184,166,.4) !important;
+      z-index: 100 !important;
+      transition: transform .16s ease, box-shadow .16s ease !important;
+    }
+
+    /* =========================================================
+       NAVBAR
+       ========================================================= */
+    .navbar-inverse {
+      background: rgba(11,14,20,0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: 0 8px 30px rgba(0,0,0,.5);
+    }
+    .navbar-inverse .navbar-brand {
+      font-weight: 900; font-size: 22px; letter-spacing: -0.5px;
+      color: #fff !important; display: flex; align-items: center; padding: 18px 15px;
+    }
+    .navbar-inverse .navbar-brand .logo-highlight {
+      background: var(--brand-gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-left: 2px;
+    }
+    .navbar-inverse .navbar-nav > li > a {
+      color: var(--text-muted) !important; font-weight: 600; font-size: 13px;
+      text-transform: uppercase; letter-spacing: .5px; padding: 22px 14px;
+      transition: color .2s ease;
+    }
+    .navbar-inverse .navbar-nav > li > a:hover,
+    .navbar-inverse .navbar-nav > li > a:focus {
+      color: #fff !important; background: transparent !important;
+    }
+    .navbar-inverse .navbar-nav > .active > a {
+      background: transparent !important;
+      color: #fff !important; font-weight: 700; position: relative;
+    }
+    .navbar-inverse .navbar-nav > .active > a::after {
+      content: ""; position: absolute; bottom: 10px; left: 14px; right: 14px;
+      height: 3px; border-radius: 2px; background: var(--brand-gradient);
+    }
+
+    .search-box-wrapper { position: relative; display: flex; align-items: center; }
+    .search-input {
+      border-radius: 30px !important;
+      background: rgba(255,255,255,.06) !important;
+      border: 1px solid var(--border-subtle) !important;
+      color: #fff !important;
+      padding-left: 38px !important; padding-right: 15px !important;
+      width: 220px; height: 38px; font-size: 13px;
+      transition: width .3s ease, border-color .3s ease, background .3s ease;
+    }
+    .search-icon-inside {
+      position: absolute; left: 14px; color: var(--text-muted);
+      pointer-events: none; font-size: 13px;
+    }
+    .search-input:focus {
+      width: 300px;
+      border-color: #14b8a6 !important;
+      background: rgba(255,255,255,.1) !important;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(20,184,166,.25) !important;
+    }
+
+    .dropdown-menu {
+      background-color: rgba(21,26,35,.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 40px rgba(0,0,0,.7);
+      border-radius: var(--radius-md); padding: 8px 0; margin-top: 5px;
+    }
+    .dropdown-menu > li > a {
+      color: var(--text-main); font-weight: 600; font-size: 13px;
+      padding: 10px 22px; transition: all .2s ease;
+    }
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus {
+      background: var(--brand-gradient); color: #fff;
+    }
+
+    .btn-brand-pro {
+      background: var(--brand-gradient); color: #fff !important; font-weight: 700;
+      border: none; border-radius: 30px; padding: 12px 26px; font-size: 14px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 6px 20px rgba(20,184,166,.35); transition: all .22s ease;
+      text-decoration: none !important;
+    }
+    .btn-brand-pro:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 10px 28px rgba(124,58,237,.5); color: #fff !important;
+    }
+    .btn-glass {
+      background: rgba(255,255,255,.08); color: var(--text-main) !important;
+      border: 1px solid var(--border-highlight); border-radius: 30px;
+      padding: 12px 24px; font-weight: 600; font-size: 14px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all .22s ease; text-decoration: none !important;
+    }
+    .btn-glass:hover {
+      background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.3);
+      color: #fff !important; transform: translateY(-2px);
+    }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0b0e14; }
+    ::-webkit-scrollbar-thumb { background: #21262d; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #14b8a6; }
+
+    @media (max-width: 767px) {
+      body { padding-top: 70px; }
+      .navbar-collapse {
+        background: rgba(11,14,20,.98) !important;
+        backdrop-filter: blur(20px);
+        border-top: 1px solid var(--border-subtle) !important;
+        border-bottom: 1px solid var(--border-subtle) !important;
+        box-shadow: 0 16px 40px rgba(0,0,0,.85);
+        padding: 10px 18px 20px; max-height: 85vh; overflow-y: auto;
+      }
+      .navbar-inverse .navbar-nav > li > a {
+        padding: 14px 10px; font-size: 14px;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+      }
+      .search-box-wrapper { width: 100%; margin-top: 12px; }
+      .search-input, .search-input:focus { width: 100% !important; max-width: 100% !important; }
+      .navbar-form { margin: 10px 0 5px 0; padding: 0; border: none; box-shadow: none; }
+    }
+
+    /* =========================================================
+       HERO
        ========================================================= */
     .billboard-hero {
-        position: relative;
-        min-height: 420px;
-        margin-top: -10px;
-        margin-bottom: 45px;
-        margin-left: -7px;
-        margin-right: -7px;
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-        display: flex;
-        align-items: center;
-        background-color: #121620;
+      position: relative; min-height: 420px; margin: -10px -7px 45px;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 20px 60px rgba(0,0,0,.7);
+      display: flex; align-items: center; background-color: #121620;
     }
     .hero-bg-poster {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 65%;
-        background-size: cover;
-        background-position: center top;
-        filter: blur(1px);
-        opacity: 0.85;
-        transition: transform 6s ease;
+      position: absolute; inset: 0 0 0 auto; width: 65%;
+      background:
+        radial-gradient(400px 400px at 70% 30%, rgba(20,184,166,.35), transparent 60%),
+        radial-gradient(500px 500px at 90% 80%, rgba(124,58,237,.35), transparent 60%),
+        repeating-linear-gradient(45deg, #101a2e 0 20px, #16213a 20px 40px);
+      filter: blur(1px); opacity: .85; transition: transform 6s ease;
     }
-    .billboard-hero:hover .hero-bg-poster {
-        transform: scale(1.04);
-    }
+    .billboard-hero:hover .hero-bg-poster { transform: scale(1.04); }
     .hero-vignette {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(90deg, #0b0e14 0%, rgba(11, 14, 20, 0.94) 38%, rgba(11, 14, 20, 0.6) 70%, rgba(11, 14, 20, 0.25) 100%),
-                    linear-gradient(0deg, #0b0e14 0%, transparent 40%);
-        z-index: 2;
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, #0b0e14 0%, rgba(11,14,20,.94) 38%, rgba(11,14,20,.6) 70%, rgba(11,14,20,.25) 100%),
+        linear-gradient(0deg, #0b0e14 0%, transparent 40%);
+      z-index: 2;
     }
-    .hero-content {
-        position: relative;
-        z-index: 3;
-        max-width: 620px;
-        padding: 36px 26px;
-    }
+    .hero-content { position: relative; z-index: 3; max-width: 620px; padding: 36px 26px; }
     .hero-pill-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(255, 42, 84, 0.2);
-        color: #ff3b60;
-        border: 1px solid rgba(255, 42, 84, 0.4);
-        padding: 5px 14px;
-        border-radius: 30px;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 16px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(20,184,166,.18); color: #2dd4bf;
+      border: 1px solid rgba(20,184,166,.4);
+      padding: 5px 14px; border-radius: 30px;
+      font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 16px;
     }
     .hero-title {
-        font-size: clamp(28px, 4vw, 44px);
-        font-weight: 900;
-        line-height: 1.15;
-        margin: 0 0 14px 0;
-        color: #ffffff;
-        letter-spacing: -0.5px;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+      font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15;
+      margin: 0 0 14px; color: #fff; letter-spacing: -.5px;
+      text-shadow: 0 2px 10px rgba(0,0,0,.7);
     }
     .hero-meta-row {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 16px;
-        font-size: 13px;
-        font-weight: 600;
+      display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 16px; font-size: 13px; font-weight: 600;
     }
     .hero-vj-badge {
-        background: linear-gradient(135deg, #ff2a54, #ff5e3a);
-        color: #fff;
-        padding: 3px 10px;
-        border-radius: 4px;
-        font-weight: 800;
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+      background: var(--brand-gradient); color: #fff;
+      padding: 3px 10px; border-radius: 4px;
+      font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: .5px;
     }
-    .hero-year {
-        color: #8b949e;
-    }
-    .hero-genre {
-        color: #00e676;
-        text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 0.5px;
-    }
+    .hero-year { color: var(--text-muted); }
+    .hero-genre { color: #2dd4bf; text-transform: uppercase; font-size: 11px; letter-spacing: .5px; }
     .hero-plot {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #c9d1d9;
-        margin-bottom: 25px;
-        max-height: 70px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
+      font-size: 14px; line-height: 1.6; color: #c9d1d9; margin-bottom: 25px;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .hero-actions {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        flex-wrap: wrap;
-    }
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 
-    /* Category Pill Navigation */
+    /* =========================================================
+       PILLS
+       ========================================================= */
     .filter-pill-bar {
-        margin-bottom: 35px;
-        margin-left: -7px;
-        margin-right: -7px;
-        padding: 6px;
-        background: rgba(21, 26, 35, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 50px;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      margin: 0 -7px 35px; padding: 6px;
+      background: rgba(21,26,35,.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 50px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.4);
     }
     .filter-pill-scroll {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 6px;
-        padding: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: 6px; padding: 4px;
     }
     .filter-pill {
-        color: #8b949e;
-        background: transparent;
-        border: 1px solid transparent;
-        font-weight: 700;
-        font-size: 13px;
-        padding: 8px 18px;
-        border-radius: 30px;
-        text-decoration: none !important;
-        transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
+      color: var(--text-muted); background: transparent;
+      border: 1px solid transparent;
+      font-weight: 700; font-size: 13px;
+      padding: 8px 18px; border-radius: 30px;
+      text-decoration: none !important;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 7px;
+      cursor: pointer;
     }
-    .filter-pill:hover,
-    .filter-pill.tv-focused {
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.08);
-        transform: translateY(-1px);
-    }
+    .filter-pill:hover { color: #fff; background: rgba(255,255,255,.08); }
     .filter-pill.active {
-        color: #ffffff;
-        background: var(--brand-gradient);
-        box-shadow: 0 4px 16px rgba(255, 42, 84, 0.4);
-        border-color: transparent;
-    }
-    .filter-pill.app-pill {
-        color: #00e676;
-        border: 1px solid rgba(0, 230, 118, 0.3);
-        background: rgba(0, 230, 118, 0.08);
-    }
-    .filter-pill.app-pill:hover,
-    .filter-pill.app-pill.tv-focused {
-        background: #00e676;
-        color: #0b0e14 !important;
-        box-shadow: 0 4px 16px rgba(0, 230, 118, 0.4);
+      color: #fff; background: var(--brand-gradient);
+      box-shadow: 0 4px 16px rgba(20,184,166,.4);
     }
 
-    /* Section Headers */
+    /* =========================================================
+       SECTION HEADER
+       ========================================================= */
     .section-header-pro {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 40px -7px 22px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 40px -7px 22px; padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
     }
     .section-title-pro {
-        font-size: 20px;
-        font-weight: 800;
-        letter-spacing: -0.3px;
-        color: #ffffff;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      font-size: 20px; font-weight: 800; letter-spacing: -.3px;
+      color: #fff; margin: 0;
+      display: flex; align-items: center; gap: 10px;
     }
     .section-title-pro .accent-bar {
-        width: 4px;
-        height: 22px;
-        border-radius: 3px;
-        background: var(--brand-gradient);
-        display: inline-block;
+      width: 4px; height: 22px; border-radius: 3px;
+      background: var(--brand-gradient); display: inline-block;
     }
+    .section-count { color: var(--text-muted); font-size: 12px; font-weight: 600; }
 
-    /* Radiant Movie Cards (2:3 Cinematic Ratio) */
-    .movie-col {
-        margin-bottom: 30px;
-        padding-left: 8px;
-        padding-right: 8px;
-    }
+    /* =========================================================
+       MOVIE CARDS
+       ========================================================= */
+    .movie-col { margin-bottom: 30px; padding-left: 8px; padding-right: 8px; }
     .poster-card-link {
-        display: block;
-        text-decoration: none !important;
-        outline: none;
-        border-radius: 12px;
-        transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1);
+      display: block; text-decoration: none !important;
+      border-radius: 12px; transition: transform .22s ease;
     }
     .poster-frame {
-        position: relative;
-        width: 100%;
-        padding-bottom: 146%; /* ~2:3 Aspect ratio */
-        border-radius: 12px;
-        overflow: hidden;
-        background: #141822;
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
-        transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+      position: relative; width: 100%;
+      padding-bottom: 146%;
+      border-radius: 12px; overflow: hidden;
+      background: #141822;
+      border: 1px solid rgba(255,255,255,.07);
+      box-shadow: 0 8px 24px rgba(0,0,0,.55);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
     }
-    .poster-frame img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.3s ease;
+    .poster-art {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(200px 200px at 30% 20%, rgba(20,184,166,.4), transparent 60%),
+        radial-gradient(200px 200px at 80% 80%, rgba(124,58,237,.4), transparent 60%),
+        repeating-linear-gradient(45deg, #111a2e 0 14px, #17223b 14px 28px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px; text-align: center;
+      color: #d1e6ff; font-weight: 800; font-size: 12px;
+      letter-spacing: .5px; text-transform: uppercase;
+      transition: transform .3s ease;
     }
     .badge-row {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        right: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        z-index: 2;
-        pointer-events: none;
+      position: absolute; top: 8px; left: 8px; right: 8px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 2; pointer-events: none;
     }
     .card-badge {
-        font-size: 10px;
-        font-weight: 800;
-        padding: 3px 7px;
-        border-radius: 4px;
-        letter-spacing: 0.5px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      font-size: 10px; font-weight: 800;
+      padding: 3px 7px; border-radius: 4px; letter-spacing: .5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.5);
     }
-    .badge-premium {
-        background: linear-gradient(135deg, #e50914, #ff334b);
-        color: #ffffff;
-    }
-    .badge-free {
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: #ffffff;
-    }
+    .badge-premium { background: var(--brand-gradient); color: #fff; }
+    .badge-free    { background: linear-gradient(135deg,#10b981,#059669); color: #fff; }
     .card-vj-badge {
-        background: rgba(11, 14, 20, 0.85);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        color: #f0f6fc;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        font-size: 10px;
-        font-weight: 800;
-        padding: 3px 8px;
-        border-radius: 4px;
-        text-transform: uppercase;
+      background: rgba(11,14,20,.85);
+      backdrop-filter: blur(8px);
+      color: #f0f6fc;
+      border: 1px solid var(--border-highlight);
+      font-size: 10px; font-weight: 800;
+      padding: 3px 8px; border-radius: 4px; text-transform: uppercase;
     }
-
-    /* Play Overlay on Hover / Focus */
     .card-play-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(11, 14, 20, 0.45);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.22s ease;
-        z-index: 3;
+      position: absolute; inset: 0;
+      background: rgba(11,14,20,.45);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .22s ease; z-index: 3;
     }
     .play-circle-btn {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: var(--brand-gradient);
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        padding-left: 3px;
-        box-shadow: 0 8px 25px rgba(255, 42, 84, 0.6);
-        transform: scale(0.85);
-        transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1);
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--brand-gradient); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; padding-left: 3px;
+      box-shadow: 0 8px 25px rgba(124,58,237,.6);
+      transform: scale(.85); transition: transform .22s ease;
     }
-    .poster-card-link:hover .poster-frame,
-    .poster-card-link.tv-focused .poster-frame {
-        transform: translateY(-7px) scale(1.03);
-        border-color: rgba(255, 42, 84, 0.7);
-        box-shadow: 0 16px 36px rgba(255, 42, 84, 0.35), 0 8px 24px rgba(0, 0, 0, 0.8);
+    .poster-card-link:hover .poster-frame {
+      transform: translateY(-7px) scale(1.03);
+      border-color: rgba(20,184,166,.7);
+      box-shadow: 0 16px 36px rgba(20,184,166,.35), 0 8px 24px rgba(0,0,0,.8);
     }
-    .poster-card-link:hover .poster-frame img,
-    .poster-card-link.tv-focused .poster-frame img {
-        transform: scale(1.05);
-    }
-    .poster-card-link:hover .card-play-overlay,
-    .poster-card-link.tv-focused .card-play-overlay {
-        opacity: 1;
-    }
-    .poster-card-link:hover .play-circle-btn,
-    .poster-card-link.tv-focused .play-circle-btn {
-        transform: scale(1);
-    }
+    .poster-card-link:hover .poster-art { transform: scale(1.05); }
+    .poster-card-link:hover .card-play-overlay { opacity: 1; }
+    .poster-card-link:hover .play-circle-btn { transform: scale(1); }
 
-    .movie-info {
-        padding: 10px 4px 4px;
-    }
+    .movie-info { padding: 10px 4px 4px; }
     .movie-title {
-        font-size: 13px;
-        font-weight: 700;
-        color: #f0f6fc;
-        text-transform: uppercase;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        letter-spacing: 0.2px;
-        transition: color 0.2s ease;
+      font-size: 13px; font-weight: 700; color: #f0f6fc;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      text-transform: uppercase; letter-spacing: .2px; transition: color .2s ease;
     }
-    .poster-card-link:hover .movie-title,
-    .poster-card-link.tv-focused .movie-title {
-        color: #ff3b60;
-    }
+    .poster-card-link:hover .movie-title { color: #2dd4bf; }
     .movie-meta {
-        font-size: 11px;
-        font-weight: 600;
-        color: #8b949e;
-        margin-top: 3px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .meta-series {
-        color: #ff7b72;
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      margin-top: 3px; display: flex; gap: 6px;
     }
 
-    /* Modern Dark Pagination */
-    .pagination-wrapper {
-        margin: 45px 0 25px;
+    .empty-state {
+      padding: 40px 20px; text-align: center;
+      color: var(--text-muted); font-size: 14px;
+      border: 1px dashed var(--border-subtle);
+      border-radius: var(--radius-lg);
     }
+    .empty-state i { font-size: 32px; margin-bottom: 12px; opacity: .4; display: block; }
+
+    /* =========================================================
+       PAGINATION
+       ========================================================= */
+    .pagination-wrapper { margin: 45px 0 25px; }
     .pagination {
-        display: inline-flex;
-        background: rgba(21, 26, 35, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 30px;
-        padding: 5px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      display: inline-flex; background: rgba(21,26,35,.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 30px; padding: 5px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.4);
     }
-    .pagination > li > a,
-    .pagination > li > span {
-        background: transparent;
-        border: none;
-        color: #8b949e;
-        font-weight: 700;
-        font-size: 13px;
-        padding: 8px 16px;
-        border-radius: 20px;
-        margin: 0 2px;
-        transition: all 0.2s ease;
+    .pagination > li > a, .pagination > li > span {
+      background: transparent; border: none;
+      color: var(--text-muted); font-weight: 700; font-size: 13px;
+      padding: 8px 16px; border-radius: 20px; margin: 0 2px;
+      transition: all .2s ease;
     }
-    .pagination > li > a:hover,
-    .pagination > li > a.tv-focused {
-        background: rgba(255, 255, 255, 0.08);
-        color: #ffffff;
-    }
+    .pagination > li > a:hover { background: rgba(255,255,255,.08); color: #fff; }
     .pagination > .active > a,
     .pagination > .active > a:focus,
     .pagination > .active > a:hover {
-        background: var(--brand-gradient);
-        color: #ffffff;
-        box-shadow: 0 4px 14px rgba(255, 42, 84, 0.4);
+      background: var(--brand-gradient); color: #fff;
+      box-shadow: 0 4px 14px rgba(20,184,166,.4);
     }
 
-    /* Mobile Responsive Optimizations */
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    .main-footer {
+      background-color: #07090e;
+      border-top: 1px solid rgba(255,255,255,.07);
+      color: var(--text-muted);
+      padding: 60px 0 35px; margin-top: 60px;
+      clear: both; width: 100%; font-size: 14px;
+    }
+    .footer-brand h4 {
+      color: #fff; font-weight: 900; letter-spacing: -.5px;
+      font-size: 22px; margin-bottom: 15px;
+    }
+    .footer-brand p { line-height: 1.6; font-size: 13.5px; max-width: 320px; }
+    .footer-logo-accent {
+      background: var(--brand-gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-left: 2px;
+    }
+    .footer-heading {
+      color: #fff; font-weight: 800; font-size: 13px;
+      text-transform: uppercase; letter-spacing: .6px; margin-bottom: 16px;
+    }
+    .footer-links { list-style: none; padding: 0; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a {
+      color: var(--text-muted); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 4px 8px; border-radius: 6px;
+      font-size: 13.5px; font-weight: 600; transition: all .2s ease;
+    }
+    .footer-links a:hover {
+      color: #fff; background: rgba(255,255,255,.08); transform: translateX(4px);
+    }
+    .copyright { font-size: 12px; color: #484f58; font-weight: 600; }
+    .clearfix::after { content: ""; clear: both; display: table; }
+
+    /* =========================================================
+       PLAYER PAGE VIEW
+       ========================================================= */
+    .player-header {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 14px; margin: 20px 0 18px;
+    }
+    .player-back-link {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border: 1px solid var(--border-highlight);
+      border-radius: 30px;
+      padding: 9px 18px;
+      font-weight: 600; text-decoration: none !important;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px;
+      transition: all .2s ease;
+      cursor: pointer;
+    }
+    .player-back-link:hover { background: rgba(255,255,255,.16); color: #fff; }
+
+    .player-title-block { flex: 1; min-width: 200px; }
+    .player-title-block h1 {
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 800; margin: 0 0 6px; color: #fff;
+    }
+    .player-title-block .meta {
+      font-size: 12px; color: var(--text-muted);
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    }
+    .meta .mid-badge {
+      background: var(--brand-gradient); color: #fff;
+      padding: 3px 10px; border-radius: 4px;
+      font-weight: 800; font-size: 11px; letter-spacing: .5px;
+    }
+    .meta .host-badge { font-weight: 700; color: #2dd4bf; }
+    .meta .genre-badge {
+      background: rgba(20,184,166,.18); color: #2dd4bf;
+      border: 1px solid rgba(20,184,166,.4);
+      padding: 2px 10px; border-radius: 30px;
+      font-weight: 700; font-size: 11px; text-transform: uppercase;
+    }
+    .meta .premium-chip {
+      background: var(--brand-gradient); color: #fff;
+      padding: 3px 10px; border-radius: 4px;
+      font-weight: 800; font-size: 11px;
+    }
+    .meta .free-chip {
+      background: linear-gradient(135deg,#10b981,#059669); color: #fff;
+      padding: 3px 10px; border-radius: 4px;
+      font-weight: 800; font-size: 11px;
+    }
+
+    .video-stage {
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 20px 60px rgba(0,0,0,.7);
+      aspect-ratio: 16 / 9;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .video-stage video { width: 100%; height: 100%; display: block; background: #000; }
+
+    .video-info {
+      max-width: 1280px;
+      margin: 24px auto 0;
+      padding: 22px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+    }
+    .video-info h2 { font-size: 18px; margin: 0 0 10px; font-weight: 800; color: #fff; }
+    .video-info p { color: var(--text-muted); line-height: 1.65; margin: 0; font-size: 14px; }
+    .video-info code {
+      background: rgba(255,255,255,.08); color: #2dd4bf;
+      padding: 1px 6px; border-radius: 4px; font-size: 12px;
+    }
+
+    .related-section { max-width: 1280px; margin: 40px auto 60px; }
+    .related-title {
+      font-size: 20px; font-weight: 800;
+      color: #fff; margin: 0 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .related-title .accent-bar {
+      width: 4px; height: 22px; border-radius: 3px;
+      background: var(--brand-gradient); display: inline-block;
+    }
+    .related-count {
+      color: var(--text-muted); font-size: 12px; font-weight: 600;
+      margin-left: auto;
+    }
+
+    /* Mobile tweaks */
     @media (max-width: 767px) {
-        .billboard-hero {
-            min-height: 280px;
-            margin-top: 0;
-            margin-bottom: 25px;
-            margin-left: -9px;
-            margin-right: -9px;
-            border-radius: 12px;
-        }
-        .hero-bg-poster {
-            width: 85%;
-            opacity: 0.6;
-        }
-        .hero-content {
-            padding: 20px 14px;
-            max-width: 100%;
-        }
-        .hero-title {
-            font-size: clamp(20px, 6vw, 28px);
-            margin-bottom: 10px;
-        }
-        .hero-plot {
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 18px;
-            -webkit-line-clamp: 2;
-        }
-        .hero-actions {
-            gap: 8px;
-            width: 100%;
-        }
-        .hero-actions .btn-brand-pro,
-        .hero-actions .btn-glass {
-            padding: 10px 16px;
-            font-size: 13px;
-            flex: 1 1 auto;
-            text-align: center;
-        }
+      .billboard-hero { min-height: 280px; margin: 0 -9px 25px; border-radius: 12px; }
+      .hero-bg-poster { width: 85%; opacity: .6; }
+      .hero-content { padding: 20px 14px; max-width: 100%; }
+      .hero-title { font-size: clamp(20px, 6vw, 28px); margin-bottom: 10px; }
+      .hero-plot { font-size: 13px; line-height: 1.5; margin-bottom: 18px; -webkit-line-clamp: 2; }
+      .hero-actions { gap: 8px; width: 100%; }
+      .hero-actions .btn-brand-pro,
+      .hero-actions .btn-glass { padding: 10px 16px; font-size: 13px; flex: 1 1 auto; }
 
-        /* Single-row Horizontal Scroll Pill Bar */
-        .filter-pill-bar {
-            border-radius: 14px;
-            padding: 4px;
-            margin-bottom: 25px;
-            margin-left: -9px;
-            margin-right: -9px;
-            overflow: hidden;
-            background: rgba(21, 26, 35, 0.9);
-        }
-        .filter-pill-scroll {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            justify-content: flex-start;
-            gap: 8px;
-            padding: 4px 6px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-        .filter-pill-scroll::-webkit-scrollbar {
-            display: none;
-        }
-        .filter-pill {
-            flex: 0 0 auto;
-            padding: 8px 14px;
-            font-size: 12.5px;
-            white-space: nowrap;
-        }
+      .filter-pill-bar { border-radius: 14px; padding: 4px; margin: 0 -9px 25px; overflow: hidden; }
+      .filter-pill-scroll {
+        display: flex; flex-wrap: nowrap; overflow-x: auto;
+        justify-content: flex-start; gap: 8px; padding: 4px 6px;
+        scrollbar-width: none;
+      }
+      .filter-pill-scroll::-webkit-scrollbar { display: none; }
+      .filter-pill { flex: 0 0 auto; padding: 8px 14px; font-size: 12.5px; }
 
-        /* Movie Grid & Section Header Spacing */
-        .movie-col {
-            margin-bottom: 20px;
-            padding-left: 6px;
-            padding-right: 6px;
-        }
-        .section-header-pro {
-            margin: 25px -9px 16px;
-        }
-        .section-title-pro {
-            font-size: 17px;
-        }
+      .movie-col { margin-bottom: 20px; padding-left: 6px; padding-right: 6px; }
+      .section-header-pro { margin: 25px -9px 16px; }
+      .section-title-pro { font-size: 17px; }
 
-        /* Pagination on Mobile */
-        .pagination-wrapper {
-            margin: 30px 0 20px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            max-width: 100%;
-            padding: 0 4px;
-        }
-        .pagination {
-            border-radius: 20px;
-            padding: 3px;
-        }
-        .pagination > li > a,
-        .pagination > li > span {
-            padding: 6px 11px;
-            font-size: 12px;
-            margin: 0 1px;
-            min-width: 32px;
-            text-align: center;
-        }
+      .pagination-wrapper { overflow-x: auto; margin: 30px 0 20px; padding: 0 4px; }
+      .pagination > li > a, .pagination > li > span { padding: 6px 11px; font-size: 12px; }
+
+      .related-title { font-size: 17px; }
+      .video-info { padding: 16px; }
     }
-</style>
+  </style>
+</head>
+<body>
 
-<div class="container">
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" id="brandLink">MUGGO<span class="logo-highlight">REEL</span></a>
+    </div>
 
-    
-    <!-- PILL CATEGORY & SORT BAR -->
-    <div class="filter-pill-bar text-center">
-        <div class="filter-pill-scroll">
-            <a href="?order=2" class="filter-pill ">
-                <i class="fa fa-fire text-danger"></i> Trending
-            </a>
-            <a href="?order=0" class="filter-pill ">
-                <i class="fa fa-clock-o text-warning"></i> Latest
-            </a>
-            <a href="?order=1" class="filter-pill ">
-                <i class="fa fa-random text-info"></i> Random
-            </a>
-            <a href="?genre=Free" class="filter-pill active">
-                <i class="fa fa-gift text-success"></i> Free Movies
-            </a>
-            <a href="?genre=Series" class="filter-pill ">
-                <i class="fa fa-television text-danger"></i> TV Series
-            </a>
-            <a href="/MoviesUg.apk" download class="filter-pill app-pill">
-                <i class="fa fa-android"></i> Download App
-            </a>
+    <div class="collapse navbar-collapse" id="main-nav">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#" id="homeLink">Home</a></li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Genres <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#" data-genre-jump="Action"><i class="fa fa-fire"></i> &nbsp; Action</a></li>
+            <li><a href="#" data-genre-jump="Adventure"><i class="fa fa-compass"></i> &nbsp; Adventure</a></li>
+            <li><a href="#" data-genre-jump="Comedy"><i class="fa fa-smile-o"></i> &nbsp; Comedy</a></li>
+            <li><a href="#" data-genre-jump="Drama"><i class="fa fa-theater-masks"></i> &nbsp; Drama</a></li>
+            <li><a href="#" data-genre-jump="Horror"><i class="fa fa-skull"></i> &nbsp; Horror</a></li>
+            <li><a href="#" data-genre-jump="Romance"><i class="fa fa-heart"></i> &nbsp; Romance</a></li>
+            <li><a href="#" data-genre-jump="Sci-Fi"><i class="fa fa-rocket"></i> &nbsp; Sci-Fi</a></li>
+            <li><a href="#" data-genre-jump="Thriller"><i class="fa fa-bolt"></i> &nbsp; Thriller</a></li>
+            <li class="divider" style="background-color:rgba(255,255,255,.08);"></li>
+            <li><a href="#" data-filter-jump="series"><i class="fa fa-television"></i> &nbsp; <strong>TV Series</strong></a></li>
+            <li><a href="#" data-filter-jump="free"><i class="fa fa-gift"></i> &nbsp; <strong>Free Picks</strong></a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hosts <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Alpha</a></li>
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Bravo</a></li>
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Charlie</a></li>
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Delta</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#"><i class="fa fa-bookmark"></i> Watchlist</a></li>
+        <li><a href="#"><i class="fa fa-sign-in"></i> Login</a></li>
+      </ul>
+
+      <form class="navbar-form navbar-right" onsubmit="return false;">
+        <div class="form-group search-box-wrapper">
+          <i class="fa fa-search search-icon-inside"></i>
+          <input type="text" id="searchInput" class="form-control search-input" placeholder="Search titles, hosts…">
         </div>
+      </form>
     </div>
+  </div>
+</nav>
 
-    
-    <div class="section-header-pro">
-        <h3 class="section-title-pro">
-            <span class="accent-bar"></span> 
-            Free Movies        </h3>
-    </div>
+<!-- ============================================================
+     HOME VIEW
+     ============================================================ -->
+<div class="container" id="homeView">
 
-    <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=8039" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Ice%20Cube-The%20Janky%20Promoters%20%282009%29%20vj%20junior.jpg"
-                     alt="The Janky Promoters (2009) vj junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Janky Promoters (2009) vj junior">
-                    The Janky Promoters (2009) vj junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
+  <!-- HERO -->
+  <div class="billboard-hero">
+    <div class="hero-bg-poster"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <div class="hero-pill-badge"><i class="fa fa-fire"></i> Spotlight Feature</div>
+      <h1 class="hero-title" id="heroTitleEl">Midnight Crossing (2024)</h1>
+      <div class="hero-meta-row">
+        <span class="hero-vj-badge" id="heroHostEl">Host Alpha</span>
+        <span class="hero-year"><i class="fa fa-calendar-o"></i> <span id="heroYearEl">2024</span></span>
+        <span class="hero-genre"><i class="fa fa-film"></i> <span id="heroGenreEl">Action</span></span>
+      </div>
+      <p class="hero-plot" id="heroPlotEl">
+        A placeholder synopsis for the featured spotlight. In production, replace this
+        text with a real plot summary from your backend. This hero demonstrates the
+        featured-title pattern used across streaming UIs.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn-brand-pro" id="heroWatchBtn">
+          <i class="fa fa-play"></i> Watch Now
         </a>
+        <a href="#" class="btn-glass" data-filter-jump="free"><i class="fa fa-gift"></i> Free Picks</a>
+        <a href="#" class="btn-glass"><i class="fa fa-android"></i> Get App</a>
+      </div>
     </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14395" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Andrew%20McCarthy-Crusader%20%282005%29%20vj%20Emmy.jpg"
-                     alt="Crusader (2005) vj Emmy"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Emmy</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Crusader (2005) vj Emmy">
-                    Crusader (2005) vj Emmy                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2005</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13255" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Naomi%20Watts-The%20Painted%20Veil%20%282006%29%20vj%20Ulio.jpg"
-                     alt="The Painted Veil (2006) vj Ulio"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Ulio</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Painted Veil (2006) vj Ulio">
-                    The Painted Veil (2006) vj Ulio                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2006</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13541" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Tommy%20Lee%20Jones-In%20the%20Valley%20of%20Elah%20%282007%29%20vj%20Junior.jpg"
-                     alt="In the Valley of Elah (2007) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="In the Valley of Elah (2007) vj Junior">
-                    In the Valley of Elah (2007) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2007</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14879" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Tom%20Cruise-Mission%20Impossible%203%20%282006%29%20vj%20IceP.jpg"
-                     alt="Mission Impossible 3 (2006) vj IceP"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ IceP</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Mission Impossible 3 (2006) vj IceP">
-                    Mission Impossible 3 (2006) vj IceP                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2006</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15558" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Jane%20Hampson-Balibo%20%282009%29%20vj%20Junior.jpg"
-                     alt="Balibo (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Balibo (2009) vj Junior">
-                    Balibo (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=29127" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Jared%20Padalecki-Friday%20the%2013th%20%282009%29%20vj%20Emmy.jpg"
-                     alt="Friday the 13th (2009) vj Emmy"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Emmy</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Friday the 13th (2009) vj Emmy">
-                    Friday the 13th (2009) vj Emmy                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13231" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Robert%20Wisdom-Sex%20and%20Death%20101%20%282007%29%20vj%20Kriss%20Sweet.jpg"
-                     alt="Sex and Death 101 (2007) vj Kriss Sweet"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Kriss Sweet</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Sex and Death 101 (2007) vj Kriss Sweet">
-                    Sex and Death 101 (2007) vj Kriss Sweet                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2007</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13297" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Asa%20Butterfield-The%20Boy%20in%20the%20Striped%20Pajamas%20%282008%29%20vj%20Ulio.jpg"
-                     alt="The Boy in the Striped Pajamas (2008) vj Ulio"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Ulio</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Boy in the Striped Pajamas (2008) vj Ulio">
-                    The Boy in the Striped Pajamas (2008) vj Ulio                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13723" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Dev%20Patel-Slumdog%20Millionaire%20%282008%29%20vj%20Junior.jpg"
-                     alt="Slumdog Millionaire (2008) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Slumdog Millionaire (2008) vj Junior">
-                    Slumdog Millionaire (2008) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15962" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Will%20Smith-The%20Pursuit%20of%20Happyness%20%282006%29%20vj%20Junior.jpg"
-                     alt="The Pursuit of Happyness (2006) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Pursuit of Happyness (2006) vj Junior">
-                    The Pursuit of Happyness (2006) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2006</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15937" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Christopher%20Walken-The%20Maiden%20Heist%20%282009%29%20vj%20Junior.jpg"
-                     alt="The Maiden Heist (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Maiden Heist (2009) vj Junior">
-                    The Maiden Heist (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14826" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Jesse%20Bradford-The%20Echo%20%282008%29%20vj%20Junoir.jpg"
-                     alt="The Echo (2008) vj Junoir"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junoir</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Echo (2008) vj Junoir">
-                    The Echo (2008) vj Junoir                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=29253" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Channing%20Tatum-Fighting%20%282009%29%20vj%20Junior.jpg"
-                     alt="Fighting (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Fighting (2009) vj Junior">
-                    Fighting (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14655" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Breckin%20Meyer-Garfield%20%282004%29%20vj%20Emmy.jpg"
-                     alt="Garfield (2004) vj Emmy"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Emmy</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Garfield (2004) vj Emmy">
-                    Garfield (2004) vj Emmy                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2004</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14552" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Tomer%20Sisley-The%20Heir%20Apparent%20Largo%20Winch%20%282008%29%20vj%20Junior.jpg"
-                     alt="The Heir Apparent: Largo Winch (2008) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Heir Apparent: Largo Winch (2008) vj Junior">
-                    The Heir Apparent: Largo Winch (2008) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13711" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Rene%20Zellweger-Case%2039%20%282009%29%20vj%20Junior.jpg"
-                     alt="Case 39 (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Case 39 (2009) vj Junior">
-                    Case 39 (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15954" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Matt%20Damon-The%20Bourne%20Supremacy%20%282004%29%20vj%20Junior.jpg"
-                     alt="The Bourne Supremacy (2004) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Bourne Supremacy (2004) vj Junior">
-                    The Bourne Supremacy (2004) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2004</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13757" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Kate%20Hudson-Bride%20Wars%20%282009%29%20vj%20Junior.jpg"
-                     alt="Bride Wars (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Bride Wars (2009) vj Junior">
-                    Bride Wars (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13383" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Orlando%20Bloom-Elizabethtown%20%282005%29%20vj%20Ulio.jpg"
-                     alt="Elizabethtown (2005) vj Ulio"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Ulio</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Elizabethtown (2005) vj Ulio">
-                    Elizabethtown (2005) vj Ulio                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2005</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13880" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Samuel%20L%20Jackson-Coach%20Carter%20%282005%29%20vj%20Junior.jpg"
-                     alt="Coach Carter (2005) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Coach Carter (2005) vj Junior">
-                    Coach Carter (2005) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2005</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15522" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Famke%20Janssen-100%20Feet%20%282008%29%20vj%20Junior.jpg"
-                     alt="100 Feet (2008) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="100 Feet (2008) vj Junior">
-                    100 Feet (2008) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=36057" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Glenn%20Jacobs-See%20No%20Evil%20%282006%29%20vj%20Emmy.jpg"
-                     alt="See No Evil (2006) vj Emmy"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Emmy</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="See No Evil (2006) vj Emmy">
-                    See No Evil (2006) vj Emmy                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2006</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14990" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/JeeJa%20Yanin-Raging%20Phoenix%20%282009%29%20vj%20Junior.jpg"
-                     alt="Raging Phoenix (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Raging Phoenix (2009) vj Junior">
-                    Raging Phoenix (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=10721" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/John%20Cusack-Igor%20%282008%29%20vj%20martin%20k.jpg"
-                     alt="Igor (2008) vj martin k"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ martin k</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Igor (2008) vj martin k">
-                    Igor (2008) vj martin k                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15953" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Matt%20Damon-The%20Bourne%20Ultimatum%20%282007%29%20vj%20Junior.jpg"
-                     alt="The Bourne Ultimatum (2007) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Bourne Ultimatum (2007) vj Junior">
-                    The Bourne Ultimatum (2007) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2007</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=12736" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Julianne%20Moore-The%20Forgotten%20%282004%29%20vj%20Junior.jpg"
-                     alt="The Forgotten (2004) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Forgotten (2004) vj Junior">
-                    The Forgotten (2004) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2004</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=12618" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Tim%20Allen-Wild%20Hogs%20%282007%29%20vj%20Junior.jpg"
-                     alt="Wild Hogs (2007) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Wild Hogs (2007) vj Junior">
-                    Wild Hogs (2007) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2007</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=29281" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Liam%20Neeson-Taken%20%282008%29%20vj%20Junior.jpg"
-                     alt="Taken (2008) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Taken (2008) vj Junior">
-                    Taken (2008) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=12865" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Lea%20Thompson-Jane%20Doe%20Til%20Death%20Do%20Us%20Part%20%282005%29%20vj%20Emma.jpg"
-                     alt="Jane Doe: Til Death Do Us Part (2005) vj Emma"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Emma</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Jane Doe: Til Death Do Us Part (2005) vj Emma">
-                    Jane Doe: Til Death Do Us Part (2005) vj Emma                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2005</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13258" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Charlize%20Theron-Battle%20in%20Seattle%20%282007%29%20vj%20Kriss%20Sweet.jpg"
-                     alt="Battle in Seattle (2007) vj Kriss Sweet"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Kriss Sweet</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Battle in Seattle (2007) vj Kriss Sweet">
-                    Battle in Seattle (2007) vj Kriss Sweet                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2007</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13214" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Nantawooti%20Boonrapsap-Power%20Kids%20%282009%29%20vj%20Ice%20P.jpg"
-                     alt="Power Kids (2009) vj Ice P"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Ice P</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Power Kids (2009) vj Ice P">
-                    Power Kids (2009) vj Ice P                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15237" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Yasiin%20Bey-Next%20Day%20Air%20%282009%29%20vj%20Junior.jpg"
-                     alt="Next Day Air (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Next Day Air (2009) vj Junior">
-                    Next Day Air (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=12801" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Jerry%20OConnell-Lies%20and%20Alibis%20%282006%29%20vj%20Junior.jpg"
-                     alt="Lies and Alibis (2006) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Lies and Alibis (2006) vj Junior">
-                    Lies and Alibis (2006) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2006</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14634" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Dwayne%20Johnson-Race%20to%20Witch%20Mountain%20%282009%29%20vj%20Junior.jpg"
-                     alt="Race to Witch Mountain (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Race to Witch Mountain (2009) vj Junior">
-                    Race to Witch Mountain (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15384" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/David%20Chokachi-Bats%20Human%20Harvest%20%282007%29%20vj%20Jingo.jpg"
-                     alt="Bats Human Harvest (2007) vj Jingo"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Jingo</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Bats Human Harvest (2007) vj Jingo">
-                    Bats Human Harvest (2007) vj Jingo                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2007</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13525" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Keanu%20Reeves-The%20Day%20the%20Earth%20Stood%20Still%20%282008%29%20vj%20Junior.jpg"
-                     alt="The Day the Earth Stood Still (2008) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Day the Earth Stood Still (2008) vj Junior">
-                    The Day the Earth Stood Still (2008) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?imdbId=959Tom" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Craig%20Horner-Legend%20of%20the%20Seeker%20%282008%29%20vj%20Tom%28season%202-episode%2042%29.jpg"
-                     alt="Legend of the Seeker (2008) vj Tom"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Tom</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Legend of the Seeker (2008) vj Tom">
-                    Legend of the Seeker (2008) vj Tom                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                            <span class="meta-dot">•</span>
-                        <span class="meta-series"><i class="fa fa-television"></i> Series</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14679" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Dwayne%20Johnson-Walking%20Tall%20%282004%29%20vj%20Junior.jpg"
-                     alt="Walking Tall (2004) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Walking Tall (2004) vj Junior">
-                    Walking Tall (2004) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2004</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15929" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Tony%20Jaa-Ong%20Bak%202%20%282008%29%20vj%20Jingo.jpg"
-                     alt="Ong Bak 2 (2008) vj Jingo"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Jingo</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Ong Bak 2 (2008) vj Jingo">
-                    Ong Bak 2 (2008) vj Jingo                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=15286" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Renny%20Harlin-12%20Rounds%20%282009%29%20vj%20Junior.jpg"
-                     alt="12 Rounds (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="12 Rounds (2009) vj Junior">
-                    12 Rounds (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13374" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Christina%20Ricci-AfterLife%20%282009%29%20vj%20Junior.jpg"
-                     alt="After.Life (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="After.Life (2009) vj Junior">
-                    After.Life (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=29154" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Zach%20Braff-The%20Ex%20%282006%29%20vj%20Emmy.jpg"
-                     alt="The Ex (2006) vj Emmy"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Emmy</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Ex (2006) vj Emmy">
-                    The Ex (2006) vj Emmy                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2006</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13303" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Greg%20Kinnear-Flash%20of%20Genius%20%282008%29%20vj%20Junior.jpg"
-                     alt="Flash of Genius (2008) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Flash of Genius (2008) vj Junior">
-                    Flash of Genius (2008) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2008</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=13877" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Nicolas%20Cage-Bad%20Lieutenant%20Port%20of%20Call%20New%20Orleans%20%282009%29%20vj%20Junior.jpg"
-                     alt="Bad Lieutenant: Port of Call New Orleans (2009) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Bad Lieutenant: Port of Call New Orleans (2009) vj Junior">
-                    Bad Lieutenant: Port of Call New Orleans (2009) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2009</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=12873" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Kate%20Winslet-The%20Holiday%20%282006%29%20vj%20Junior.jpg"
-                     alt="The Holiday (2006) vj Junior"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Junior</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="The Holiday (2006) vj Junior">
-                    The Holiday (2006) vj Junior                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2006</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=14640" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Nathan%20Phillips-Wolf%20Creek%20%282005%29%20vj%20Jingo.jpg"
-                     alt="Wolf Creek (2005) vj Jingo"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Jingo</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="Wolf Creek (2005) vj Jingo">
-                    Wolf Creek (2005) vj Jingo                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2005</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-        <a href="play.php?mId=36194" class="poster-card-link">
-            <div class="poster-frame">
-                <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49"></script><img src="/posters/Cyril%20Raffaelli-District%20B13%20%282004%29%20vj%20Jingo.jpg"
-                     alt="District B13 (2004) vj Jingo"
-                     loading="lazy"
-                     onerror="this.onerror=null;this.src='/posters/alternative.jpg';">
-                <div class="badge-row">
-                    <span class="card-badge badge-free">FREE</span>                    <span class="card-vj-badge">VJ Jingo</span>                </div>
-                <div class="card-play-overlay">
-                    <div class="play-circle-btn">
-                        <i class="fa fa-play"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="movie-info">
-                <div class="movie-title" title="District B13 (2004) vj Jingo">
-                    District B13 (2004) vj Jingo                </div>
-                <div class="movie-meta">
-                    <span class="meta-year">2004</span>
-                                    </div>
-            </div>
-        </a>
-    </div>
-        </div>
+  </div>
 
-    <div class="text-center pagination-wrapper">
-        <ul class="pagination">
-            <li class='active'><a href='/?genre=Free&amp;page=1'>1</a></li><li ><a href='/?genre=Free&amp;page=2'>2</a></li><li ><a href='/?genre=Free&amp;page=3'>3</a></li><li class='disabled'><span>...</span></li><li ><a href='/?genre=Free&amp;page=5'>5</a></li>        </ul>
+  <!-- PILLS -->
+  <div class="filter-pill-bar text-center">
+    <div class="filter-pill-scroll">
+      <a href="#" class="filter-pill active" data-filter="trending"><i class="fa fa-fire"></i> Trending</a>
+      <a href="#" class="filter-pill" data-filter="latest"><i class="fa fa-clock-o"></i> Latest</a>
+      <a href="#" class="filter-pill" data-filter="random"><i class="fa fa-random"></i> Random</a>
+      <a href="#" class="filter-pill" data-filter="free"><i class="fa fa-gift"></i> Free Picks</a>
+      <a href="#" class="filter-pill" data-filter="series"><i class="fa fa-television"></i> TV Series</a>
+      <a href="#" class="filter-pill"><i class="fa fa-download"></i> Download App</a>
     </div>
+  </div>
 
+  <!-- SECTION HEADER -->
+  <div class="section-header-pro">
+    <h3 class="section-title-pro">
+      <span class="accent-bar"></span>
+      <span id="sectionTitle">Trending Now</span>
+    </h3>
+    <span class="section-count" id="sectionCount"></span>
+  </div>
+
+  <!-- GRID -->
+  <div class="row" id="gridRoot"></div>
+
+  <!-- PAGINATION -->
+  <div class="text-center pagination-wrapper">
+    <ul class="pagination">
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li class="disabled"><span>…</span></li>
+      <li><a href="#">121</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     PLAYER VIEW
+     ============================================================ -->
+<div class="container" id="playerView" style="display:none;">
+  <div class="player-header">
+    <a class="player-back-link" id="playerBack">
+      <i class="fa fa-arrow-left"></i> Back to Home
+    </a>
+    <div class="player-title-block">
+      <h1 id="playerTitle">Title</h1>
+      <div class="meta">
+        <span class="mid-badge" id="playerMid">mId: —</span>
+        <span class="host-badge" id="playerHost">Host</span>
+        <span class="genre-badge" id="playerGenre">Genre</span>
+        <span id="playerTier"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-stage">
+    <video id="playerVideo" controls playsinline preload="auto"></video>
+  </div>
+
+  <div class="video-info">
+    <h2>About this title</h2>
+    <p id="playerDesc"></p>
+  </div>
+
+  <section class="related-section">
+    <h2 class="related-title">
+      <span class="accent-bar"></span>
+      More <span id="relatedGenre">—</span> Titles
+      <span class="related-count" id="relatedCount"></span>
+    </h2>
+    <div class="row" id="relatedGrid"></div>
+  </section>
 </div>
 
 <div class="clearfix"></div>
 
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
 <footer class="main-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-sm-12 footer-brand">
-                <h4>MOVIES<span class="footer-logo-accent">UG</span></h4>
-                <p>The premier streaming platform for Ugandan translated blockbuster movies and series. Watch your favorite VJs in high definition.</p>
-            </div>
-            
-            <div class="col-md-4 col-sm-6 col-xs-6">
-                <h5 class="footer-heading">Quick Browse</h5>
-                <ul class="footer-links">
-                    <li><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
-                    <li><a href="index.php?genre=Series"><i class="fa fa-television text-danger"></i> TV Series</a></li>
-                    <li><a href="index.php?genre=Free"><i class="fa fa-gift text-success"></i> Free Movies</a></li>
-                    <li><a href="request.php"><i class="fa fa-diamond text-warning"></i> VIP Subscription</a></li>
-                </ul>
-            </div>
-
-            <div class="col-md-4 col-sm-6 col-xs-6">
-                <h5 class="footer-heading">Support & Apps</h5>
-                <ul class="footer-links">
-                    <li><a href="contact.php"><i class="fa fa-envelope-o"></i> Contact Us</a></li>
-                    <li><a href="/MoviesUg.apk" download><i class="fa fa-android text-success"></i> Download Android APK</a></li>
-                    <li><a href="account.php"><i class="fa fa-user-circle"></i> My Account</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <hr style="border-color: rgba(255,255,255,0.06); margin: 35px 0 25px;">
-        
-        <div class="row">
-            <div class="col-sm-12 text-center copyright">
-                <p>&copy; 2026 MOVIES.UG &bull; All Rights Reserved &bull; Premium Ugandan Entertainment</p>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-sm-12 footer-brand">
+        <h4>STUDY<span class="footer-logo-accent">REEL</span></h4>
+        <p>
+          A study prototype demonstrating a streaming-style UI: sticky nav, hero billboard,
+          pill filters with real filtering, 2:3 poster grid, hash-routed player page with
+          related titles, and pagination.
+        </p>
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-6">
+        <h5 class="footer-heading">Quick Browse</h5>
+        <ul class="footer-links">
+          <li><a href="#" id="footerHomeLink"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="#" data-filter-jump="series"><i class="fa fa-television"></i> TV Series</a></li>
+          <li><a href="#" data-filter-jump="free"><i class="fa fa-gift"></i> Free Picks</a></li>
+          <li><a href="#"><i class="fa fa-diamond"></i> VIP Subscription</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 col-sm-6 col-xs-6">
+        <h5 class="footer-heading">Support &amp; Apps</h5>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fa fa-envelope-o"></i> Contact</a></li>
+          <li><a href="#"><i class="fa fa-android"></i> Download Android APK</a></li>
+          <li><a href="#"><i class="fa fa-user-circle"></i> My Account</a></li>
+        </ul>
+      </div>
     </div>
+    <hr style="border-color: rgba(255,255,255,.06); margin: 35px 0 25px;">
+    <div class="row">
+      <div class="col-sm-12 text-center copyright">
+        <p id="copyrightLine"></p>
+      </div>
+    </div>
+  </div>
 </footer>
 
-<style>
-    /* Pro Dark Footer Styling */
-    .main-footer {
-        background-color: #07090e;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
-        color: #8b949e;
-        padding: 60px 0 35px 0;
-        margin-top: 60px;
-        clear: both;
-        width: 100%;
-        font-size: 14px;
-    }
-    
-    .footer-brand h4 {
-        color: #ffffff;
-        font-weight: 900;
-        letter-spacing: -0.5px;
-        font-size: 22px;
-        margin-bottom: 15px;
-    }
-    .footer-brand p {
-        line-height: 1.6;
-        font-size: 13.5px;
-        color: #8b949e;
-        max-width: 320px;
-    }
-    .footer-logo-accent {
-        background: var(--brand-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-left: 2px;
-    }
-    
-    .footer-heading {
-        color: #ffffff;
-        font-weight: 800;
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 0.6px;
-        margin-bottom: 16px;
-    }
-    
-    .footer-links {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .footer-links li {
-        margin-bottom: 10px;
-    }
-    
-    .footer-links a {
-        color: #8b949e;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 13.5px;
-        font-weight: 600;
-    }
-    
-    .footer-links a:hover,
-    .footer-links a.tv-focused {
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.08);
-        text-decoration: none;
-        transform: translateX(4px);
-    }
-    
-    .copyright {
-        font-size: 12px;
-        color: #484f58;
-        font-weight: 600;
-    }
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    .clearfix::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
+<script>
+/* =============================================================
+   CATALOG — every title lives here
+   ============================================================= */
+const CATALOG = [
+  { mId:10001, title:"Midnight Crossing", host:"Host Alpha",   year:2024, genre:"Action",    isPremium:false, plot:"A courier gets pulled into a night-long chase across the city." },
+  { mId:10002, title:"Broken Promise",    host:"Host Bravo",   year:2023, genre:"Drama",     isPremium:true,  plot:"A family confronts a betrayal that changes everything." },
+  { mId:10003, title:"The Signal",        host:"Host Charlie", year:2024, genre:"Sci-Fi",    isPremium:false, plot:"A rogue signal from deep space puts a small town on edge." },
+  { mId:10004, title:"Lovers' Lane",      host:"Host Delta",   year:2022, genre:"Romance",   isPremium:true,  plot:"Two strangers meet by accident and can't stay apart." },
+  { mId:10005, title:"Silent Echo",       host:"Host Alpha",   year:2025, genre:"Horror",    isPremium:false, plot:"An abandoned hospital starts returning the dead." },
+  { mId:10006, title:"Laugh Track",       host:"Host Bravo",   year:2023, genre:"Comedy",    isPremium:false, plot:"A failing sitcom finds sudden success for the wrong reasons." },
+  { mId:10007, title:"Deep Current",      host:"Host Charlie", year:2024, genre:"Thriller",  isPremium:true,  plot:"A diver stumbles onto a conspiracy hidden under the sea." },
+  { mId:10008, title:"High Peaks",        host:"Host Delta",   year:2021, genre:"Adventure", isPremium:false, plot:"A team races to summit a mountain before the storm hits." },
+  { mId:10009, title:"Last Witness",      host:"Host Alpha",   year:2024, genre:"Action",    isPremium:true,  plot:"One witness. One shot. One shot at justice." },
+  { mId:10010, title:"Autumn Hearts",     host:"Host Bravo",   year:2023, genre:"Romance",   isPremium:false, plot:"Childhood friends finally admit what everyone knew." },
+  { mId:10011, title:"Ghost Signal",      host:"Host Charlie", year:2022, genre:"Horror",    isPremium:true,  plot:"A haunting broadcast leaves listeners missing." },
+  { mId:10012, title:"Startup Life",      host:"Host Delta",   year:2024, genre:"Series",    isPremium:false, plot:"Four founders try to survive their first year." },
+  { mId:10013, title:"Laugh Riot",        host:"Host Alpha",   year:2023, genre:"Comedy",    isPremium:true,  plot:"A stand-up tour goes sideways across three states." },
+  { mId:10014, title:"Silent Partner",    host:"Host Bravo",   year:2025, genre:"Thriller",  isPremium:false, plot:"An accountant uncovers the truth behind the numbers." },
+  { mId:10015, title:"Frozen Trail",      host:"Host Charlie", year:2021, genre:"Adventure", isPremium:true,  plot:"A lost expedition fights winter and each other." },
+  { mId:10016, title:"Broken Compass",    host:"Host Delta",   year:2024, genre:"Drama",     isPremium:false, plot:"A navigator's mistake changes a family forever." },
+  { mId:10017, title:"Signal Lost",       host:"Host Alpha",   year:2023, genre:"Sci-Fi",    isPremium:false, plot:"A satellite team discovers they were never alone." },
+  { mId:10018, title:"Comedy Central",    host:"Host Bravo",   year:2022, genre:"Comedy",    isPremium:false, plot:"The most awkward comedy club in the country." },
+  { mId:10019, title:"Midnight Run",      host:"Host Charlie", year:2024, genre:"Action",    isPremium:false, plot:"A chase across one city, one night, one chance." },
+  { mId:10020, title:"City Lights",       host:"Host Delta",   year:2023, genre:"Drama",     isPremium:false, plot:"Two lives intersect on the city's last warm night." },
+  { mId:10021, title:"Seasons End",       host:"Host Alpha",   year:2024, genre:"Series",    isPremium:true,  plot:"The final season of a small-town drama." },
+  { mId:10022, title:"Hearts Entwined",   host:"Host Bravo",   year:2022, genre:"Romance",   isPremium:false, plot:"Two hearts. Two cities. One letter." },
+  { mId:10023, title:"Cold Case",         host:"Host Charlie", year:2023, genre:"Thriller",  isPremium:false, plot:"A detective reopens a case everyone wanted buried." },
+  { mId:10024, title:"Above the Fog",     host:"Host Delta",   year:2024, genre:"Horror",    isPremium:false, plot:"A fog rolls in and the town is never the same." },
+  { mId:10025, title:"Spaced Out",        host:"Host Alpha",   year:2025, genre:"Sci-Fi",    isPremium:true,  plot:"A space crew learns their mission was a lie." },
+  { mId:10026, title:"First Flight",      host:"Host Bravo",   year:2023, genre:"Adventure", isPremium:false, plot:"A young pilot races a storm to save her village." },
+  { mId:10027, title:"Small Talk",        host:"Host Charlie", year:2024, genre:"Comedy",    isPremium:false, plot:"A shy comic finally finds his voice." },
+  { mId:10028, title:"Overtime",          host:"Host Delta",   year:2023, genre:"Series",    isPremium:false, plot:"A first-season look at a firehouse in crisis." },
+  { mId:10029, title:"Blackout",          host:"Host Alpha",   year:2024, genre:"Action",    isPremium:true,  plot:"When the grid dies, one agent holds the line." },
+  { mId:10030, title:"Open Road",         host:"Host Bravo",   year:2022, genre:"Drama",     isPremium:false, plot:"A road trip turns into a reckoning." }
+];
 
-    /* Mobile Responsive Optimizations for Footer */
-    @media (max-width: 767px) {
-        .main-footer {
-            padding: 35px 0 25px 0;
-            margin-top: 35px;
-        }
-        .footer-brand {
-            margin-bottom: 25px;
-        }
-        .footer-brand p {
-            max-width: 100%;
-        }
-        .footer-heading {
-            margin-top: 10px;
-            margin-bottom: 12px;
-        }
-        .footer-links a {
-            padding: 6px 4px;
-        }
-        .copyright {
-            margin-top: 10px;
-        }
-    }
-</style>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"7dac236acdda4049a29063be4508f23c","r":1,"spa":2}' crossorigin="anonymous"></script>
-<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="7e3fe54358f8f78a2df1fa08-|49" defer></script>
+/* Sample video source */
+const SAMPLE_VIDEOS = [
+  'BigBuckBunny.mp4','ElephantsDream.mp4','ForBiggerBlazes.mp4',
+  'ForBiggerEscapes.mp4','ForBiggerFun.mp4','ForBiggerJoyrides.mp4',
+  'ForBiggerMeltdowns.mp4','Sintel.mp4','TearsOfSteel.mp4'
+];
+const VIDEO_BASE = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/';
+
+/* =============================================================
+   DOM SHORTCUTS
+   ============================================================= */
+const homeView       = document.getElementById('homeView');
+const playerView     = document.getElementById('playerView');
+const gridRoot       = document.getElementById('gridRoot');
+const relatedGrid    = document.getElementById('relatedGrid');
+const sectionTitleEl = document.getElementById('sectionTitle');
+const sectionCountEl = document.getElementById('sectionCount');
+const relatedGenreEl = document.getElementById('relatedGenre');
+const relatedCountEl = document.getElementById('relatedCount');
+const playerVideo    = document.getElementById('playerVideo');
+const searchInput    = document.getElementById('searchInput');
+
+/* =============================================================
+   CARD TEMPLATE
+   ============================================================= */
+function makeCard(m) {
+  return `
+    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
+      <a href="#play-${m.mId}"
+         class="poster-card-link"
+         data-mid="${m.mId}"
+         data-title="${m.title}"
+         data-genre="${m.genre}">
+        <div class="poster-frame">
+          <div class="poster-art">${m.title}</div>
+          <div class="badge-row">
+            <span class="card-badge ${m.isPremium ? 'badge-premium' : 'badge-free'}">
+              ${m.isPremium ? 'PREMIUM' : 'FREE'}
+            </span>
+            <span class="card-vj-badge">${m.host}</span>
+          </div>
+          <div class="card-play-overlay">
+            <div class="play-circle-btn"><i class="fa fa-play"></i></div>
+          </div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title" title="${m.title}">${m.title}</div>
+          <div class="movie-meta"><span>${m.year}</span><span>• ${m.genre}</span></div>
+        </div>
+      </a>
+    </div>
+  `;
+}
+
+/* =============================================================
+   FILTERS
+   ============================================================= */
+const FILTERS = {
+  trending: { title: 'Trending Now',      fn: () => CATALOG },
+  latest:   { title: 'Latest Releases',   fn: () => [...CATALOG].sort((a,b) => b.year - a.year) },
+  random:   { title: 'Random Picks',      fn: () => [...CATALOG].sort(() => Math.random() - 0.5) },
+  free:     { title: 'Free Picks',        fn: () => CATALOG.filter(m => !m.isPremium) },
+  series:   { title: 'TV Series',         fn: () => CATALOG.filter(m => m.genre === 'Series') }
+};
+
+let currentFilter = 'trending';
+
+function setActivePill(key) {
+  document.querySelectorAll('.filter-pill[data-filter]').forEach(p => {
+    p.classList.toggle('active', p.dataset.filter === key);
+  });
+}
+
+function renderHomeGrid(list, title, countLabel) {
+  sectionTitleEl.textContent = title;
+  sectionCountEl.textContent = countLabel || `${list.length} titles`;
+  if (!list.length) {
+    gridRoot.innerHTML = `
+      <div class="col-xs-12">
+        <div class="empty-state">
+          <i class="fa fa-film"></i>
+          No titles match this filter yet.
+        </div>
+      </div>`;
+    return;
+  }
+  gridRoot.innerHTML = list.map(makeCard).join('');
+}
+
+function applyFilter(key) {
+  const f = FILTERS[key];
+  if (!f) return;
+  currentFilter = key;
+  setActivePill(key);
+  searchInput.value = '';
+  const list = f.fn();
+  const countLabel = key === 'free'
+    ? `${list.length} free titles (premium hidden)`
+    : `${list.length} titles`;
+  renderHomeGrid(list, f.title, countLabel);
+  // Scroll to grid on filter change
+  window.scrollTo({ top: 500, behavior: 'smooth' });
+}
+
+/* Pill handlers */
+document.querySelectorAll('.filter-pill[data-filter]').forEach(pill => {
+  pill.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (location.hash) { location.hash = ''; }
+    applyFilter(pill.dataset.filter);
+  });
+});
+
+/* Filter jumps (from hero/nav/footer) */
+document.querySelectorAll('[data-filter-jump]').forEach(el => {
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (location.hash) { location.hash = ''; }
+    setTimeout(() => applyFilter(el.dataset.filterJump), 0);
+  });
+});
+
+/* Genre jumps */
+document.querySelectorAll('[data-genre-jump]').forEach(el => {
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (location.hash) { location.hash = ''; }
+    setTimeout(() => {
+      const g = el.dataset.genreJump;
+      const list = CATALOG.filter(m => m.genre === g);
+      setActivePill(null);
+      searchInput.value = '';
+      renderHomeGrid(list, `${g} Titles`, `${list.length} titles`);
+      window.scrollTo({ top: 500, behavior: 'smooth' });
+    }, 0);
+  });
+});
+
+/* =============================================================
+   SEARCH — filters visible cards (works on home)
+   ============================================================= */
+searchInput.addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase();
+  document.querySelectorAll('#gridRoot .movie-col').forEach(col => {
+    const link = col.querySelector('.poster-card-link');
+    if (!link) return;
+    col.style.display = (link.dataset.title || '').toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+
+/* =============================================================
+   PLAYER VIEW RENDERING
+   ============================================================= */
+function renderPlayer(movie) {
+  // Header
+  document.getElementById('playerTitle').textContent = `${movie.title} (${movie.year})`;
+  document.getElementById('playerMid').textContent   = `mId: ${movie.mId}`;
+  document.getElementById('playerHost').textContent  = movie.host;
+  document.getElementById('playerGenre').textContent = movie.genre;
+
+  document.getElementById('playerTier').innerHTML = movie.isPremium
+    ? '<span class="premium-chip">PREMIUM</span>'
+    : '<span class="free-chip">FREE</span>';
+
+  // Video
+  const idx = Math.abs(movie.mId) % SAMPLE_VIDEOS.length;
+  playerVideo.src = VIDEO_BASE + SAMPLE_VIDEOS[idx];
+  playerVideo.load();
+  const pp = playerVideo.play();
+  if (pp && pp.catch) pp.catch(() => {});
+
+  // Description
+  document.getElementById('playerDesc').innerHTML =
+    `<strong>${movie.title}</strong> (${movie.year}) — ${movie.plot} ` +
+    `Hosted by <strong>${movie.host}</strong>. Genre: <strong>${movie.genre}</strong>. ` +
+    `Sample video is used in this study prototype; production would stream ` +
+    `<code>play.php?mId=${movie.mId}</code>.`;
+
+  // Related titles (same genre, exclude self)
+  const related = CATALOG.filter(m => m.genre === movie.genre && m.mId !== movie.mId).slice(0, 12);
+  relatedGenreEl.textContent = movie.genre;
+  relatedCountEl.textContent = `${related.length} more`;
+
+  if (!related.length) {
+    relatedGrid.innerHTML = `
+      <div class="col-xs-12">
+        <div class="empty-state">
+          <i class="fa fa-film"></i>
+          No other <strong>${movie.genre}</strong> titles in the catalog yet.
+        </div>
+      </div>`;
+  } else {
+    relatedGrid.innerHTML = related.map(makeCard).join('');
+  }
+}
+
+/* =============================================================
+   ROUTING (hash-based)
+   ============================================================= */
+function showHome() {
+  homeView.style.display = '';
+  playerView.style.display = 'none';
+  try { playerVideo.pause(); } catch(_) {}
+  playerVideo.removeAttribute('src');
+  playerVideo.load();
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function showPlayer(movie) {
+  if (!movie) { location.hash = ''; return; }
+  homeView.style.display = 'none';
+  playerView.style.display = '';
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  renderPlayer(movie);
+}
+
+function route() {
+  const m = location.hash.match(/^#play-(\d+)$/);
+  if (m) {
+    const movie = CATALOG.find(x => x.mId === parseInt(m[1], 10));
+    if (movie) { showPlayer(movie); return; }
+  }
+  showHome();
+}
+
+window.addEventListener('hashchange', route);
+
+/* Back button */
+document.getElementById('playerBack').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (history.length > 1) history.back();
+  else location.hash = '';
+});
+
+/* Brand / Home links → clear hash */
+document.getElementById('brandLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  location.hash = '';
+});
+document.getElementById('homeLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  location.hash = '';
+});
+document.getElementById('footerHomeLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  location.hash = '';
+});
+
+/* =============================================================
+   HERO WATCH BUTTON
+   ============================================================= */
+document.getElementById('heroWatchBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  location.hash = '#play-10001';
+});
+
+/* =============================================================
+   INIT
+   ============================================================= */
+applyFilter('trending');
+route();
+
+/* Copyright */
+document.getElementById('copyrightLine').innerHTML =
+  `&copy; ${new Date().getFullYear()} STUDYREEL &bull; Study prototype &bull; Not affiliated with any streaming service.`;
+</script>
+</body>
+</html>
