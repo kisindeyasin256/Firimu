@@ -3,16 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>StudyReel — Translated Movies & TV Shows</title>
+  <title>MuggoWatch — Translated Movies & TV Shows</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    /* =========================================================
-       DESIGN TOKENS
-       ========================================================= */
     :root {
       --bg-canvas: #0b0e14;
       --surface-card: #151a23;
@@ -45,13 +42,10 @@
       transition: transform .16s ease, box-shadow .16s ease !important;
     }
 
-    /* =========================================================
-       NAVBAR
-       ========================================================= */
+    /* NAVBAR */
     .navbar-inverse {
       background: rgba(11,14,20,0.88);
       backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
       border: none;
       border-bottom: 1px solid var(--border-subtle);
       box-shadow: 0 8px 30px rgba(0,0,0,.5);
@@ -70,10 +64,7 @@
       text-transform: uppercase; letter-spacing: .5px; padding: 22px 14px;
       transition: color .2s ease;
     }
-    .navbar-inverse .navbar-nav > li > a:hover,
-    .navbar-inverse .navbar-nav > li > a:focus {
-      color: #fff !important; background: transparent !important;
-    }
+    .navbar-inverse .navbar-nav > li > a:hover { color: #fff !important; background: transparent !important; }
     .navbar-inverse .navbar-nav > .active > a {
       background: transparent !important;
       color: #fff !important; font-weight: 700; position: relative;
@@ -81,6 +72,40 @@
     .navbar-inverse .navbar-nav > .active > a::after {
       content: ""; position: absolute; bottom: 10px; left: 14px; right: 14px;
       height: 3px; border-radius: 2px; background: var(--brand-gradient);
+    }
+
+    /* BRAND COUNTER (navbar) */
+    .visitors-badge-nav {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 22px 14px;
+      color: #2dd4bf !important;
+      font-weight: 800; font-size: 12.5px;
+      text-transform: uppercase; letter-spacing: .6px;
+      white-space: nowrap;
+      cursor: default;
+    }
+    .visitors-badge-nav i { font-size: 13px; animation: eyeBlink 3.5s ease-in-out infinite; }
+    .visitors-badge-nav .vcount {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      color: #fff; font-size: 13.5px;
+      background: rgba(20,184,166,.14);
+      border: 1px solid rgba(20,184,166,.3);
+      padding: 2px 8px; border-radius: 6px;
+      min-width: 40px; text-align: center;
+      display: inline-block;
+      transition: transform .3s ease, background .3s ease;
+    }
+    .visitors-badge-nav .vcount.bump {
+      animation: brandBump .5s ease;
+    }
+    @keyframes brandBump {
+      0%   { transform: scale(1); background: rgba(20,184,166,.14); }
+      50%  { transform: scale(1.15); background: rgba(20,184,166,.5); }
+      100% { transform: scale(1); background: rgba(20,184,166,.14); }
+    }
+    @keyframes eyeBlink {
+      0%, 90%, 100% { opacity: 1; }
+      95% { opacity: .3; }
     }
 
     .search-box-wrapper { position: relative; display: flex; align-items: center; }
@@ -98,8 +123,7 @@
       pointer-events: none; font-size: 13px;
     }
     .search-input:focus {
-      width: 300px;
-      border-color: #14b8a6 !important;
+      width: 300px; border-color: #14b8a6 !important;
       background: rgba(255,255,255,.1) !important;
       outline: none;
       box-shadow: 0 0 0 3px rgba(20,184,166,.25) !important;
@@ -116,10 +140,7 @@
       color: var(--text-main); font-weight: 600; font-size: 13px;
       padding: 10px 22px; transition: all .2s ease;
     }
-    .dropdown-menu > li > a:hover,
-    .dropdown-menu > li > a:focus {
-      background: var(--brand-gradient); color: #fff;
-    }
+    .dropdown-menu > li > a:hover { background: var(--brand-gradient); color: #fff; }
 
     .btn-brand-pro {
       background: var(--brand-gradient); color: #fff !important; font-weight: 700;
@@ -163,14 +184,127 @@
         padding: 14px 10px; font-size: 14px;
         border-bottom: 1px solid rgba(255,255,255,.05);
       }
+      .visitors-badge-nav {
+        padding: 14px 10px;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+        font-size: 13px;
+      }
       .search-box-wrapper { width: 100%; margin-top: 12px; }
       .search-input, .search-input:focus { width: 100% !important; max-width: 100% !important; }
       .navbar-form { margin: 10px 0 5px 0; padding: 0; border: none; box-shadow: none; }
     }
 
-    /* =========================================================
-       HERO
-       ========================================================= */
+    /* HOME SUPPORT BANNER */
+    .home-support-banner {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      padding: 14px 18px; margin: 0 -7px 22px;
+      background:
+        radial-gradient(400px 120px at 10% 50%, rgba(20,184,166,.22), transparent 70%),
+        radial-gradient(400px 120px at 90% 50%, rgba(124,58,237,.22), transparent 70%),
+        linear-gradient(135deg, rgba(20,184,166,.10) 0%, rgba(124,58,237,.10) 100%);
+      border: 1px solid rgba(20,184,166,.3);
+      border-radius: 14px;
+      box-shadow: 0 6px 24px rgba(20,184,166,.15);
+      position: relative;
+      animation: hsIn .5s ease;
+    }
+    .home-support-banner.dismissed { display: none; }
+    @keyframes hsIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hs-icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--brand-gradient);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 18px; flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(124,58,237,.45);
+      animation: hsHeart 2s ease-in-out infinite;
+    }
+    @keyframes hsHeart {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.08); }
+    }
+    .hs-text { flex: 1; min-width: 200px; }
+    .hs-title { color: #fff; font-weight: 800; font-size: 14px; margin-bottom: 3px; letter-spacing: .2px; }
+    .hs-sub {
+      color: var(--text-muted); font-size: 11.5px; font-weight: 600;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .hs-live {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: #2dd4bf; font-family: ui-monospace, monospace; font-weight: 800;
+    }
+    .hs-live .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #10b981; box-shadow: 0 0 6px #10b981;
+      animation: hsPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes hsPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .5; transform: scale(.75); }
+    }
+    .hs-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .hs-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 12px; border-radius: 30px;
+      font-size: 12px; font-weight: 700;
+      text-decoration: none !important;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255,255,255,.06);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all .2s ease; white-space: nowrap;
+    }
+    .hs-btn:hover { background: rgba(255,255,255,.12); transform: translateY(-1px); color: #fff; }
+    .hs-wa {
+      background: linear-gradient(135deg,#25D366,#128C7E);
+      border-color: transparent; color: #fff !important;
+      box-shadow: 0 4px 12px rgba(37,211,102,.3);
+    }
+    .hs-wa:hover { color: #fff !important; box-shadow: 0 6px 18px rgba(37,211,102,.45); }
+    .hs-momo {
+      background: rgba(20,184,166,.14);
+      border-color: rgba(20,184,166,.35);
+      color: #2dd4bf; font-family: ui-monospace, monospace;
+      letter-spacing: .5px; font-size: 11.5px;
+    }
+    .hs-momo:hover { color: #fff; background: rgba(20,184,166,.25); }
+    .hs-copy-tag {
+      font-size: 10px; font-weight: 800;
+      background: rgba(255,255,255,.15);
+      padding: 2px 6px; border-radius: 4px;
+      font-family: 'Inter', sans-serif; letter-spacing: .3px;
+    }
+    .hs-momo.copied .hs-copy-tag { background: #10b981; color: #fff; }
+    .hs-details {
+      background: transparent;
+      border-color: var(--border-subtle);
+      color: var(--text-muted);
+      padding: 8px 10px;
+    }
+    .hs-details:hover { color: #fff; }
+    .hs-close {
+      background: transparent; border: 1px solid transparent;
+      color: var(--text-muted);
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; line-height: 1; cursor: pointer;
+    }
+    .hs-close:hover { color: #fff; background: rgba(255,255,255,.1); }
+
+    @media (max-width: 767px) {
+      .home-support-banner { padding: 12px 14px 12px 14px; margin: 0 -9px 20px; gap: 10px; }
+      .hs-title { font-size: 13px; }
+      .hs-sub { font-size: 11px; gap: 6px; }
+      .hs-actions { width: 100%; gap: 6px; }
+      .hs-btn { flex: 1 1 auto; justify-content: center; padding: 8px 10px; font-size: 11.5px; }
+      .hs-momo { flex: 2 1 auto; }
+      .hs-close { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; font-size: 16px; }
+      .hs-icon { width: 36px; height: 36px; font-size: 16px; }
+    }
+
+    /* HERO */
     .billboard-hero {
       position: relative; min-height: 420px; margin: -10px -7px 45px;
       border-radius: 16px; overflow: hidden;
@@ -180,11 +314,10 @@
     }
     .hero-bg-poster {
       position: absolute; inset: 0 0 0 auto; width: 65%;
-      background:
-        radial-gradient(400px 400px at 70% 30%, rgba(20,184,166,.35), transparent 60%),
-        radial-gradient(500px 500px at 90% 80%, rgba(124,58,237,.35), transparent 60%),
-        repeating-linear-gradient(45deg, #101a2e 0 20px, #16213a 20px 40px);
-      filter: blur(1px); opacity: .85; transition: transform 6s ease;
+      background-image: url('https://movies.ug/posters/Franka%20Potente-The%20Bourne%20Identity%20%282002%29%20vj%20Junior.jpg');
+      background-size: cover; background-position: center top;
+      filter: blur(1px) brightness(0.7); opacity: .85;
+      transition: transform 6s ease;
     }
     .billboard-hero:hover .hero-bg-poster { transform: scale(1.04); }
     .hero-vignette {
@@ -225,9 +358,7 @@
     }
     .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 
-    /* =========================================================
-       PILLS
-       ========================================================= */
+    /* PILLS */
     .filter-pill-bar {
       margin: 0 -7px 35px; padding: 6px;
       background: rgba(21,26,35,.7);
@@ -256,13 +387,12 @@
       box-shadow: 0 4px 16px rgba(20,184,166,.4);
     }
 
-    /* =========================================================
-       SECTION HEADER
-       ========================================================= */
+    /* SECTION */
     .section-header-pro {
       display: flex; align-items: center; justify-content: space-between;
       margin: 40px -7px 22px; padding-bottom: 12px;
       border-bottom: 1px solid rgba(255,255,255,.06);
+      flex-wrap: wrap; gap: 10px;
     }
     .section-title-pro {
       font-size: 20px; font-weight: 800; letter-spacing: -.3px;
@@ -275,9 +405,32 @@
     }
     .section-count { color: var(--text-muted); font-size: 12px; font-weight: 600; }
 
-    /* =========================================================
-       MOVIE CARDS
-       ========================================================= */
+    .live-visitors-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px;
+      background: rgba(20,184,166,.12);
+      border: 1px solid rgba(20,184,166,.3);
+      border-radius: 30px;
+      color: #2dd4bf; font-size: 12px; font-weight: 700;
+      letter-spacing: .3px;
+    }
+    .live-visitors-pill .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+      animation: pulseDot 1.6s ease-in-out infinite;
+    }
+    .live-visitors-pill .vcount-inline {
+      color: #fff;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-weight: 800; font-size: 12.5px;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(.75); }
+    }
+
+    /* CARDS */
     .movie-col { margin-bottom: 30px; padding-left: 8px; padding-right: 8px; }
     .poster-card-link {
       display: block; text-decoration: none !important;
@@ -303,6 +456,23 @@
       color: #d1e6ff; font-weight: 800; font-size: 12px;
       letter-spacing: .5px; text-transform: uppercase;
       transition: transform .3s ease;
+    }
+    .poster-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block; z-index: 1;
+      background: #141822;
+      transition: transform .3s ease;
+    }
+    .poster-frame::after {
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg,
+        rgba(11,14,20,.62) 0%,
+        rgba(11,14,20,0) 28%,
+        rgba(11,14,20,0) 68%,
+        rgba(11,14,20,.68) 100%);
     }
     .badge-row {
       position: absolute; top: 8px; left: 8px; right: 8px;
@@ -343,7 +513,8 @@
       border-color: rgba(20,184,166,.7);
       box-shadow: 0 16px 36px rgba(20,184,166,.35), 0 8px 24px rgba(0,0,0,.8);
     }
-    .poster-card-link:hover .poster-art { transform: scale(1.05); }
+    .poster-card-link:hover .poster-art,
+    .poster-card-link:hover .poster-img { transform: scale(1.05); }
     .poster-card-link:hover .card-play-overlay { opacity: 1; }
     .poster-card-link:hover .play-circle-btn { transform: scale(1); }
 
@@ -367,9 +538,7 @@
     }
     .empty-state i { font-size: 32px; margin-bottom: 12px; opacity: .4; display: block; }
 
-    /* =========================================================
-       PAGINATION
-       ========================================================= */
+    /* PAGINATION */
     .pagination-wrapper { margin: 45px 0 25px; }
     .pagination {
       display: inline-flex; background: rgba(21,26,35,.7);
@@ -381,7 +550,7 @@
       background: transparent; border: none;
       color: var(--text-muted); font-weight: 700; font-size: 13px;
       padding: 8px 16px; border-radius: 20px; margin: 0 2px;
-      transition: all .2s ease;
+      transition: all .2s ease; cursor: pointer;
     }
     .pagination > li > a:hover { background: rgba(255,255,255,.08); color: #fff; }
     .pagination > .active > a,
@@ -390,10 +559,12 @@
       background: var(--brand-gradient); color: #fff;
       box-shadow: 0 4px 14px rgba(20,184,166,.4);
     }
+    .pagination > .disabled > a,
+    .pagination > .disabled > span {
+      color: #4a515c; cursor: not-allowed; pointer-events: none;
+    }
 
-    /* =========================================================
-       FOOTER
-       ========================================================= */
+    /* FOOTER */
     .main-footer {
       background-color: #07090e;
       border-top: 1px solid rgba(255,255,255,.07);
@@ -427,106 +598,28 @@
       color: #fff; background: rgba(255,255,255,.08); transform: translateX(4px);
     }
     .copyright { font-size: 12px; color: #484f58; font-weight: 600; }
+
+    .footer-visitors {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 20px;
+      background: rgba(20,184,166,.08);
+      border: 1px solid rgba(20,184,166,.2);
+      border-radius: 30px;
+      color: #2dd4bf; font-size: 12.5px; font-weight: 700;
+      letter-spacing: .4px;
+      margin-top: 10px;
+    }
+    .footer-visitors i { font-size: 13px; }
+    .footer-visitors .vcount-footer {
+      color: #fff;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-weight: 800; font-size: 14px;
+      background: rgba(255,255,255,.05);
+      padding: 2px 10px; border-radius: 6px;
+    }
+
     .clearfix::after { content: ""; clear: both; display: table; }
 
-    /* =========================================================
-       PLAYER PAGE VIEW
-       ========================================================= */
-    .player-header {
-      display: flex; flex-wrap: wrap; align-items: center;
-      gap: 14px; margin: 20px 0 18px;
-    }
-    .player-back-link {
-      background: rgba(255,255,255,.08);
-      color: #fff;
-      border: 1px solid var(--border-highlight);
-      border-radius: 30px;
-      padding: 9px 18px;
-      font-weight: 600; text-decoration: none !important;
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 13px;
-      transition: all .2s ease;
-      cursor: pointer;
-    }
-    .player-back-link:hover { background: rgba(255,255,255,.16); color: #fff; }
-
-    .player-title-block { flex: 1; min-width: 200px; }
-    .player-title-block h1 {
-      font-size: clamp(18px, 3vw, 26px);
-      font-weight: 800; margin: 0 0 6px; color: #fff;
-    }
-    .player-title-block .meta {
-      font-size: 12px; color: var(--text-muted);
-      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-    }
-    .meta .mid-badge {
-      background: var(--brand-gradient); color: #fff;
-      padding: 3px 10px; border-radius: 4px;
-      font-weight: 800; font-size: 11px; letter-spacing: .5px;
-    }
-    .meta .host-badge { font-weight: 700; color: #2dd4bf; }
-    .meta .genre-badge {
-      background: rgba(20,184,166,.18); color: #2dd4bf;
-      border: 1px solid rgba(20,184,166,.4);
-      padding: 2px 10px; border-radius: 30px;
-      font-weight: 700; font-size: 11px; text-transform: uppercase;
-    }
-    .meta .premium-chip {
-      background: var(--brand-gradient); color: #fff;
-      padding: 3px 10px; border-radius: 4px;
-      font-weight: 800; font-size: 11px;
-    }
-    .meta .free-chip {
-      background: linear-gradient(135deg,#10b981,#059669); color: #fff;
-      padding: 3px 10px; border-radius: 4px;
-      font-weight: 800; font-size: 11px;
-    }
-
-    .video-stage {
-      background: #000;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 20px 60px rgba(0,0,0,.7);
-      aspect-ratio: 16 / 9;
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-    .video-stage video { width: 100%; height: 100%; display: block; background: #000; }
-
-    .video-info {
-      max-width: 1280px;
-      margin: 24px auto 0;
-      padding: 22px;
-      background: var(--surface-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-    }
-    .video-info h2 { font-size: 18px; margin: 0 0 10px; font-weight: 800; color: #fff; }
-    .video-info p { color: var(--text-muted); line-height: 1.65; margin: 0; font-size: 14px; }
-    .video-info code {
-      background: rgba(255,255,255,.08); color: #2dd4bf;
-      padding: 1px 6px; border-radius: 4px; font-size: 12px;
-    }
-
-    .related-section { max-width: 1280px; margin: 40px auto 60px; }
-    .related-title {
-      font-size: 20px; font-weight: 800;
-      color: #fff; margin: 0 0 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .related-title .accent-bar {
-      width: 4px; height: 22px; border-radius: 3px;
-      background: var(--brand-gradient); display: inline-block;
-    }
-    .related-count {
-      color: var(--text-muted); font-size: 12px; font-weight: 600;
-      margin-left: auto;
-    }
-
-    /* Mobile tweaks */
     @media (max-width: 767px) {
       .billboard-hero { min-height: 280px; margin: 0 -9px 25px; border-radius: 12px; }
       .hero-bg-poster { width: 85%; opacity: .6; }
@@ -552,26 +645,161 @@
 
       .pagination-wrapper { overflow-x: auto; margin: 30px 0 20px; padding: 0 4px; }
       .pagination > li > a, .pagination > li > span { padding: 6px 11px; font-size: 12px; }
-
-      .related-title { font-size: 17px; }
-      .video-info { padding: 16px; }
     }
+
+    /* SUPPORT FAB */
+    .support-fab {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--brand-gradient); color: #fff !important;
+      padding: 12px 18px; border-radius: 50px;
+      font-weight: 700; font-size: 14px; text-decoration: none !important;
+      box-shadow: 0 8px 24px rgba(20,184,166,.5);
+      transition: transform .2s ease, box-shadow .2s ease;
+      animation: fabPulse 2.5s ease-in-out infinite;
+      border: none; cursor: pointer;
+    }
+    .support-fab:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 32px rgba(124,58,237,.6); color: #fff !important;
+    }
+    .support-fab i { font-size: 16px; }
+    @keyframes fabPulse {
+      0%, 100% { box-shadow: 0 8px 24px rgba(20,184,166,.5); }
+      50%      { box-shadow: 0 8px 32px rgba(124,58,237,.75); }
+    }
+    @media (max-width: 767px) {
+      .support-fab { bottom: 16px; right: 16px; padding: 10px 14px; font-size: 13px; }
+      .support-fab-label { display: none; }
+    }
+
+    /* SUPPORT MODAL */
+    .support-modal {
+      position: fixed; inset: 0; z-index: 10000;
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .support-modal.open { display: flex; }
+    .support-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(6px);
+    }
+    .support-modal-box {
+      position: relative; z-index: 1;
+      background: #151a23;
+      border: 1px solid var(--border-highlight);
+      border-radius: 20px;
+      padding: 30px 24px 24px;
+      width: 100%; max-width: 440px;
+      max-height: 92vh; overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(0,0,0,.85);
+      animation: modalPop .28s cubic-bezier(.2,.9,.4,1.2);
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(.92) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .support-modal-close {
+      position: absolute; top: 12px; right: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border-subtle);
+      color: #fff; width: 32px; height: 32px; border-radius: 50%;
+      font-size: 20px; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .support-modal-close:hover { background: rgba(255,255,255,.14); }
+
+    .support-modal-header { text-align: center; margin-bottom: 22px; }
+    .support-icon-wrap {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--brand-gradient);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 24px; color: #fff;
+      box-shadow: 0 8px 24px rgba(20,184,166,.4);
+      margin-bottom: 12px;
+    }
+    .support-modal-header h3 { color: #fff; font-size: 20px; font-weight: 800; margin: 0 0 6px; }
+    .support-modal-header p { color: var(--text-muted); font-size: 13px; margin: 0; line-height: 1.5; }
+
+    .support-device-card {
+      background: rgba(20,184,166,.08);
+      border: 1px solid rgba(20,184,166,.2);
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 20px;
+    }
+    .support-device-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12.5px; padding: 6px 0;
+    }
+    .support-device-row + .support-device-row { border-top: 1px dashed rgba(255,255,255,.06); }
+    .support-device-label { color: var(--text-muted); font-weight: 600; }
+    .support-device-value {
+      color: #2dd4bf; font-weight: 800;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 12px; letter-spacing: .5px;
+      text-align: right; word-break: break-all;
+    }
+
+    .support-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; padding: 14px; border-radius: 12px;
+      font-weight: 700; text-decoration: none !important;
+      transition: transform .2s ease, box-shadow .2s ease; margin-bottom: 14px;
+    }
+    .support-btn i { font-size: 20px; margin-bottom: 2px; }
+    .support-btn span { font-size: 14px; }
+    .support-btn small { font-size: 11px; opacity: .85; font-weight: 600; }
+    .support-btn-wa {
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: #fff !important;
+      box-shadow: 0 6px 20px rgba(37,211,102,.35);
+    }
+    .support-btn-wa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(37,211,102,.5);
+      color: #fff !important;
+    }
+
+    .support-momo-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px; padding: 14px 16px;
+    }
+    .support-momo-head {
+      display: flex; align-items: center; gap: 8px;
+      color: #fff; font-weight: 700; font-size: 13px; margin-bottom: 10px;
+    }
+    .support-momo-head i { color: #ffb700; font-size: 16px; }
+    .support-momo-number {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px;
+      background: rgba(255,255,255,.05);
+      border-radius: 8px; padding: 10px 12px;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 14px; font-weight: 700; color: #fff; letter-spacing: .5px;
+    }
+    .support-copy-btn {
+      background: var(--brand-gradient); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 5px 12px; font-size: 11px; font-weight: 800;
+      cursor: pointer; letter-spacing: .3px;
+      transition: opacity .2s ease, background .2s ease;
+      white-space: nowrap;
+    }
+    .support-copy-btn:hover { opacity: .9; }
+    .support-copy-btn.copied { background: #10b981; }
+    .support-momo-hint { color: var(--text-muted); font-size: 11.5px; margin: 8px 0 0; text-align: center; line-height: 1.4; }
   </style>
 </head>
 <body>
 
-<!-- ============================================================
-     NAVBAR
-     ============================================================ -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#" id="brandLink">MUGGO<span class="logo-highlight">REEL</span></a>
+      <a class="navbar-brand" href="#" id="brandLink">MUGGO<span class="logo-highlight">WATCH</span></a>
     </div>
 
     <div class="collapse navbar-collapse" id="main-nav">
@@ -598,15 +826,22 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hosts <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Alpha</a></li>
-            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Bravo</a></li>
-            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Charlie</a></li>
-            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Host Delta</a></li>
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Vj Junior</a></li>
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Vj Emmy</a></li>
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Vj Ulio</a></li>
+            <li><a href="#"><i class="fa fa-microphone"></i> &nbsp; Vj Soul</a></li>
           </ul>
         </li>
 
         <li><a href="#"><i class="fa fa-bookmark"></i> Watchlist</a></li>
         <li><a href="#"><i class="fa fa-sign-in"></i> Login</a></li>
+
+        <li>
+          <span class="visitors-badge-nav" title="Unique devices that have visited MuggoWatch">
+            <i class="fa fa-eye"></i>
+            <span class="vcount" id="visitorCountNav">…</span>
+          </span>
+        </li>
       </ul>
 
       <form class="navbar-form navbar-right" onsubmit="return false;">
@@ -619,30 +854,54 @@
   </div>
 </nav>
 
-<!-- ============================================================
-     HOME VIEW
-     ============================================================ -->
+<!-- HOME -->
 <div class="container" id="homeView">
 
-  <!-- HERO -->
+  <div class="home-support-banner" id="homeSupportBanner">
+    <div class="hs-icon"><i class="fa fa-heart"></i></div>
+    <div class="hs-text">
+      <div class="hs-title">Support MuggoWatch</div>
+      <div class="hs-sub">
+        <span class="hs-live"><span class="dot"></span> <span id="hsVisitorCount">…</span> visitors so far</span>
+        <span>·</span>
+        <span>Device: <span id="hsDeviceId" style="font-family: ui-monospace, monospace;">…</span></span>
+      </div>
+    </div>
+    <div class="hs-actions">
+      <a href="https://wa.me/256742632315?text=Hi%2C%20I%27d%20like%20to%20support%20MuggoWatch"
+         target="_blank" rel="noopener" class="hs-btn hs-wa">
+        <i class="fa fa-whatsapp"></i> <span>WhatsApp</span>
+      </a>
+      <button type="button" class="hs-btn hs-momo" id="hsCopyMomo">
+        <i class="fa fa-mobile"></i> <span>+256 769 074 309</span>
+        <span class="hs-copy-tag">Copy</span>
+      </button>
+      <button type="button" class="hs-btn hs-details" id="hsDetailsBtn" aria-label="More support options">
+        <i class="fa fa-info-circle"></i>
+      </button>
+      <button type="button" class="hs-close" id="hsCloseBtn" aria-label="Dismiss">&times;</button>
+    </div>
+  </div>
+
   <div class="billboard-hero">
     <div class="hero-bg-poster"></div>
     <div class="hero-vignette"></div>
     <div class="hero-content">
       <div class="hero-pill-badge"><i class="fa fa-fire"></i> Spotlight Feature</div>
-      <h1 class="hero-title" id="heroTitleEl">Midnight Crossing (2024)</h1>
+      <h1 class="hero-title" id="heroTitleEl">The Bourne Identity (2002)</h1>
       <div class="hero-meta-row">
-        <span class="hero-vj-badge" id="heroHostEl">Host Alpha</span>
-        <span class="hero-year"><i class="fa fa-calendar-o"></i> <span id="heroYearEl">2024</span></span>
+        <span class="hero-vj-badge" id="heroHostEl">Vj Junior</span>
+        <span class="hero-year"><i class="fa fa-calendar-o"></i> <span id="heroYearEl">2002</span></span>
         <span class="hero-genre"><i class="fa fa-film"></i> <span id="heroGenreEl">Action</span></span>
       </div>
       <p class="hero-plot" id="heroPlotEl">
-        A placeholder synopsis for the featured spotlight. In production, replace this
-        text with a real plot summary from your backend. This hero demonstrates the
-        featured-title pattern used across streaming UIs.
+        A man is picked up by a fishing boat, bullet-riddled and suffering from amnesia,
+        before racing to elude assassins and recover his identity.
       </p>
       <div class="hero-actions">
-        <a href="#" class="btn-brand-pro" id="heroWatchBtn">
+        <a href="https://movies.ug/play.php?mId=15957"
+           target="_blank" rel="noopener"
+           class="btn-brand-pro" id="heroWatchBtn">
           <i class="fa fa-play"></i> Watch Now
         </a>
         <a href="#" class="btn-glass" data-filter-jump="free"><i class="fa fa-gift"></i> Free Picks</a>
@@ -651,7 +910,6 @@
     </div>
   </div>
 
-  <!-- PILLS -->
   <div class="filter-pill-bar text-center">
     <div class="filter-pill-scroll">
       <a href="#" class="filter-pill active" data-filter="trending"><i class="fa fa-fire"></i> Trending</a>
@@ -663,83 +921,35 @@
     </div>
   </div>
 
-  <!-- SECTION HEADER -->
   <div class="section-header-pro">
     <h3 class="section-title-pro">
       <span class="accent-bar"></span>
       <span id="sectionTitle">Trending Now</span>
     </h3>
-    <span class="section-count" id="sectionCount"></span>
-  </div>
-
-  <!-- GRID -->
-  <div class="row" id="gridRoot"></div>
-
-  <!-- PAGINATION -->
-  <div class="text-center pagination-wrapper">
-    <ul class="pagination">
-      <li class="active"><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li class="disabled"><span>…</span></li>
-      <li><a href="#">121</a></li>
-    </ul>
-  </div>
-
-</div>
-
-<!-- ============================================================
-     PLAYER VIEW
-     ============================================================ -->
-<div class="container" id="playerView" style="display:none;">
-  <div class="player-header">
-    <a class="player-back-link" id="playerBack">
-      <i class="fa fa-arrow-left"></i> Back to Home
-    </a>
-    <div class="player-title-block">
-      <h1 id="playerTitle">Title</h1>
-      <div class="meta">
-        <span class="mid-badge" id="playerMid">mId: —</span>
-        <span class="host-badge" id="playerHost">Host</span>
-        <span class="genre-badge" id="playerGenre">Genre</span>
-        <span id="playerTier"></span>
-      </div>
+    <div class="live-visitors-pill">
+      <span class="dot"></span>
+      <span><span class="vcount-inline" id="visitorCountInline">…</span> visitors so far</span>
     </div>
   </div>
 
-  <div class="video-stage">
-    <video id="playerVideo" controls playsinline preload="auto"></video>
+  <div class="row" id="gridRoot"></div>
+
+  <div class="text-center pagination-wrapper">
+    <ul class="pagination" id="pagination"></ul>
   </div>
 
-  <div class="video-info">
-    <h2>About this title</h2>
-    <p id="playerDesc"></p>
-  </div>
-
-  <section class="related-section">
-    <h2 class="related-title">
-      <span class="accent-bar"></span>
-      More <span id="relatedGenre">—</span> Titles
-      <span class="related-count" id="relatedCount"></span>
-    </h2>
-    <div class="row" id="relatedGrid"></div>
-  </section>
 </div>
 
 <div class="clearfix"></div>
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
 <footer class="main-footer">
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-sm-12 footer-brand">
-        <h4>STUDY<span class="footer-logo-accent">REEL</span></h4>
+        <h4>MUGGO<span class="footer-logo-accent">WATCH</span></h4>
         <p>
-          A study prototype demonstrating a streaming-style UI: sticky nav, hero billboard,
-          pill filters with real filtering, 2:3 poster grid, hash-routed player page with
-          related titles, and pagination.
+          Stream translated movies and series. Tapping any poster opens the movies.ug
+          player with that movie's unique mId in a new tab.
         </p>
       </div>
       <div class="col-md-4 col-sm-6 col-xs-6">
@@ -754,6 +964,7 @@
       <div class="col-md-4 col-sm-6 col-xs-6">
         <h5 class="footer-heading">Support &amp; Apps</h5>
         <ul class="footer-links">
+          <li><a href="#" id="footerSupportLink"><i class="fa fa-heart"></i> Support Us</a></li>
           <li><a href="#"><i class="fa fa-envelope-o"></i> Contact</a></li>
           <li><a href="#"><i class="fa fa-android"></i> Download Android APK</a></li>
           <li><a href="#"><i class="fa fa-user-circle"></i> My Account</a></li>
@@ -764,98 +975,266 @@
     <div class="row">
       <div class="col-sm-12 text-center copyright">
         <p id="copyrightLine"></p>
+        <div class="footer-visitors" title="Unique devices that have visited">
+          <i class="fa fa-globe"></i>
+          <span>Unique visitors:</span>
+          <span class="vcount-footer" id="visitorCountFooter">…</span>
+        </div>
+        <p id="deviceBadge" style="font-size:10px; color:#3a4149; margin-top:12px; font-family: ui-monospace, monospace;"></p>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- ============================================================
-     SCRIPTS
-     ============================================================ -->
+<!-- FAB + MODAL -->
+<button type="button" class="support-fab" id="supportFab" aria-label="Support MuggoWatch">
+  <i class="fa fa-heart"></i>
+  <span class="support-fab-label">Support</span>
+</button>
+
+<div class="support-modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+  <div class="support-modal-backdrop" data-close-support></div>
+  <div class="support-modal-box">
+    <button type="button" class="support-modal-close" data-close-support aria-label="Close">&times;</button>
+
+    <div class="support-modal-header">
+      <div class="support-icon-wrap"><i class="fa fa-heart"></i></div>
+      <h3 id="supportTitle">Support MuggoWatch</h3>
+      <p>Help keep the lights on. Every contribution counts!</p>
+    </div>
+
+    <div class="support-device-card">
+      <div class="support-device-row">
+        <span class="support-device-label">Device ID</span>
+        <span class="support-device-value" id="deviceIdValue">—</span>
+      </div>
+      <div class="support-device-row">
+        <span class="support-device-label">Your visits</span>
+        <span class="support-device-value" id="deviceVisitValue">—</span>
+      </div>
+      <div class="support-device-row">
+        <span class="support-device-label">Unique visitors (total)</span>
+        <span class="support-device-value" id="deviceGlobalValue">—</span>
+      </div>
+      <div class="support-device-row">
+        <span class="support-device-label">First seen</span>
+        <span class="support-device-value" id="deviceFirstValue">—</span>
+      </div>
+      <div class="support-device-row">
+        <span class="support-device-label">Last visit</span>
+        <span class="support-device-value" id="deviceLastValue">—</span>
+      </div>
+    </div>
+
+    <a href="https://wa.me/256742632315?text=Hi%2C%20I%27d%20like%20to%20support%20MuggoWatch"
+       target="_blank" rel="noopener"
+       class="support-btn support-btn-wa">
+      <i class="fa fa-whatsapp"></i>
+      <span>Chat on WhatsApp</span>
+      <small>+256 742 632 315</small>
+    </a>
+
+    <div class="support-momo-card">
+      <div class="support-momo-head">
+        <i class="fa fa-mobile"></i>
+        <span>Mobile Money Support</span>
+      </div>
+      <div class="support-momo-number">
+        <span>+256 769 074 309</span>
+        <button type="button" class="support-copy-btn" id="copyMomoBtn">Copy</button>
+      </div>
+      <p class="support-momo-hint">Send any amount via MTN or Airtel Mobile Money.</p>
+    </div>
+  </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <script>
 /* =============================================================
-   CATALOG — every title lives here
+   CATALOG
    ============================================================= */
 const CATALOG = [
-  { mId:10001, title:"Midnight Crossing", host:"Host Alpha",   year:2024, genre:"Action",    isPremium:false, plot:"A courier gets pulled into a night-long chase across the city." },
-  { mId:10002, title:"Broken Promise",    host:"Host Bravo",   year:2023, genre:"Drama",     isPremium:true,  plot:"A family confronts a betrayal that changes everything." },
-  { mId:10003, title:"The Signal",        host:"Host Charlie", year:2024, genre:"Sci-Fi",    isPremium:false, plot:"A rogue signal from deep space puts a small town on edge." },
-  { mId:10004, title:"Lovers' Lane",      host:"Host Delta",   year:2022, genre:"Romance",   isPremium:true,  plot:"Two strangers meet by accident and can't stay apart." },
-  { mId:10005, title:"Silent Echo",       host:"Host Alpha",   year:2025, genre:"Horror",    isPremium:false, plot:"An abandoned hospital starts returning the dead." },
-  { mId:10006, title:"Laugh Track",       host:"Host Bravo",   year:2023, genre:"Comedy",    isPremium:false, plot:"A failing sitcom finds sudden success for the wrong reasons." },
-  { mId:10007, title:"Deep Current",      host:"Host Charlie", year:2024, genre:"Thriller",  isPremium:true,  plot:"A diver stumbles onto a conspiracy hidden under the sea." },
-  { mId:10008, title:"High Peaks",        host:"Host Delta",   year:2021, genre:"Adventure", isPremium:false, plot:"A team races to summit a mountain before the storm hits." },
-  { mId:10009, title:"Last Witness",      host:"Host Alpha",   year:2024, genre:"Action",    isPremium:true,  plot:"One witness. One shot. One shot at justice." },
-  { mId:10010, title:"Autumn Hearts",     host:"Host Bravo",   year:2023, genre:"Romance",   isPremium:false, plot:"Childhood friends finally admit what everyone knew." },
-  { mId:10011, title:"Ghost Signal",      host:"Host Charlie", year:2022, genre:"Horror",    isPremium:true,  plot:"A haunting broadcast leaves listeners missing." },
-  { mId:10012, title:"Startup Life",      host:"Host Delta",   year:2024, genre:"Series",    isPremium:false, plot:"Four founders try to survive their first year." },
-  { mId:10013, title:"Laugh Riot",        host:"Host Alpha",   year:2023, genre:"Comedy",    isPremium:true,  plot:"A stand-up tour goes sideways across three states." },
-  { mId:10014, title:"Silent Partner",    host:"Host Bravo",   year:2025, genre:"Thriller",  isPremium:false, plot:"An accountant uncovers the truth behind the numbers." },
-  { mId:10015, title:"Frozen Trail",      host:"Host Charlie", year:2021, genre:"Adventure", isPremium:true,  plot:"A lost expedition fights winter and each other." },
-  { mId:10016, title:"Broken Compass",    host:"Host Delta",   year:2024, genre:"Drama",     isPremium:false, plot:"A navigator's mistake changes a family forever." },
-  { mId:10017, title:"Signal Lost",       host:"Host Alpha",   year:2023, genre:"Sci-Fi",    isPremium:false, plot:"A satellite team discovers they were never alone." },
-  { mId:10018, title:"Comedy Central",    host:"Host Bravo",   year:2022, genre:"Comedy",    isPremium:false, plot:"The most awkward comedy club in the country." },
-  { mId:10019, title:"Midnight Run",      host:"Host Charlie", year:2024, genre:"Action",    isPremium:false, plot:"A chase across one city, one night, one chance." },
-  { mId:10020, title:"City Lights",       host:"Host Delta",   year:2023, genre:"Drama",     isPremium:false, plot:"Two lives intersect on the city's last warm night." },
-  { mId:10021, title:"Seasons End",       host:"Host Alpha",   year:2024, genre:"Series",    isPremium:true,  plot:"The final season of a small-town drama." },
-  { mId:10022, title:"Hearts Entwined",   host:"Host Bravo",   year:2022, genre:"Romance",   isPremium:false, plot:"Two hearts. Two cities. One letter." },
-  { mId:10023, title:"Cold Case",         host:"Host Charlie", year:2023, genre:"Thriller",  isPremium:false, plot:"A detective reopens a case everyone wanted buried." },
-  { mId:10024, title:"Above the Fog",     host:"Host Delta",   year:2024, genre:"Horror",    isPremium:false, plot:"A fog rolls in and the town is never the same." },
-  { mId:10025, title:"Spaced Out",        host:"Host Alpha",   year:2025, genre:"Sci-Fi",    isPremium:true,  plot:"A space crew learns their mission was a lie." },
-  { mId:10026, title:"First Flight",      host:"Host Bravo",   year:2023, genre:"Adventure", isPremium:false, plot:"A young pilot races a storm to save her village." },
-  { mId:10027, title:"Small Talk",        host:"Host Charlie", year:2024, genre:"Comedy",    isPremium:false, plot:"A shy comic finally finds his voice." },
-  { mId:10028, title:"Overtime",          host:"Host Delta",   year:2023, genre:"Series",    isPremium:false, plot:"A first-season look at a firehouse in crisis." },
-  { mId:10029, title:"Blackout",          host:"Host Alpha",   year:2024, genre:"Action",    isPremium:true,  plot:"When the grid dies, one agent holds the line." },
-  { mId:10030, title:"Open Road",         host:"Host Bravo",   year:2022, genre:"Drama",     isPremium:false, plot:"A road trip turns into a reckoning." }
+  { mId:15957, title:"The Bourne Identity", host:"Vj Junior", year:2002, genre:"Action", isPremium:false },
+  { mId:15308, title:"American Virgin", host:"Vj Junior", year:2009, genre:"Comedy", isPremium:false },
+  { mId:11795, title:"Slither", host:"Vj Junior", year:2006, genre:"Horror", isPremium:false },
+  { mId:12042, title:"Full of It", host:"Vj Soul", year:2007, genre:"Comedy", isPremium:false },
+  { mId:29285, title:"G.I. Joe: The Rise of Cobra", host:"Vj Junior", year:2009, genre:"Action", isPremium:false },
+  { mId:13549, title:"Jennifer's Body", host:"Vj Junior", year:2009, genre:"Horror", isPremium:false },
+  { mId:29157, title:"Push", host:"Vj Junior", year:2009, genre:"Sci-Fi", isPremium:false },
+  { mId:14638, title:"Knowing", host:"Vj Junior", year:2009, genre:"Sci-Fi", isPremium:false },
+  { mId:15509, title:"Ben 10 Alien Swarm", host:"Vj Emmy", year:2009, genre:"Sci-Fi", isPremium:false },
+  { mId:11799, title:"Basic Instinct", host:"Vj Junior", year:1992, genre:"Thriller", isPremium:false },
+  { mId:13231, title:"Sex and Death 101", host:"Vj Kriss Sweet", year:2007, genre:"Comedy", isPremium:false },
+  { mId:13914, title:"Frat Party", host:"Vj Junior", year:2009, genre:"Comedy", isPremium:false },
+  { mId:11612, title:"Prime", host:"Vj Junior", year:2005, genre:"Romance", isPremium:false },
+  { mId:14634, title:"Race to Witch Mountain", host:"Vj Junior", year:2009, genre:"Adventure", isPremium:false },
+  { mId:15959, title:"X-Men Origins: Wolverine", host:"Vj Junior", year:2009, genre:"Action", isPremium:false },
+  { mId:11944, title:"People We Meet on Vacation", host:"Vj Junior", year:2026, genre:"Romance", isPremium:true },
+  { mId:14338, title:"Pirates of the Caribbean: Dead Mans Chest", host:"Vj Junior", year:2006, genre:"Adventure", isPremium:false },
+  { mId:15927, title:"Exam", host:"Vj Junior", year:2009, genre:"Thriller", isPremium:false },
+  { mId:15342, title:"Invisible Target", host:"Vj Junior", year:2007, genre:"Action", isPremium:false },
+  { mId:11623, title:"Juno", host:"Vj Soul", year:2007, genre:"Comedy", isPremium:false },
+  { mId:28949, title:"Brothers", host:"Vj Junior", year:2009, genre:"Drama", isPremium:false },
+  { mId:13303, title:"Flash of Genius", host:"Vj Junior", year:2008, genre:"Drama", isPremium:false },
+  { mId:15017, title:"Seven Swords", host:"Vj Ice P", year:2005, genre:"Action", isPremium:false },
+  { mId:13297, title:"The Boy in the Striped Pajamas", host:"Vj Ulio", year:2008, genre:"Drama", isPremium:false },
+  { mId:14822, title:"One Night with the King", host:"Vj Junior", year:2006, genre:"Drama", isPremium:false },
+  { mId:13973, title:"Son of the Mask", host:"Vj Kevo", year:2005, genre:"Comedy", isPremium:false },
+  { mId:11782, title:"Exit Speed", host:"Vj Emmy", year:2008, genre:"Action", isPremium:false },
+  { mId:13382, title:"Obsessed", host:"Vj Junior", year:2009, genre:"Thriller", isPremium:false },
+  { mId:14526, title:"Solomon Kane", host:"Vj Junior", year:2009, genre:"Adventure", isPremium:false },
+  { mId:14547, title:"Alligator", host:"Vj Jingo", year:2024, genre:"Horror", isPremium:false },
+  { mId:19996, title:"Resident Evil: Welcome to Raccoon City", host:"Vj Emmy", year:2021, genre:"Horror", isPremium:false },
+  { mId:9539, title:"Scary Stories to Tell in the Dark", host:"Vj Emmy", year:2019, genre:"Horror", isPremium:false },
+  { mId:5974, title:"Happy Death Day 2U", host:"Vj Junior", year:2019, genre:"Horror", isPremium:false },
+  { mId:21023, title:"The Legend of La Llorona", host:"Vj Junior", year:2022, genre:"Horror", isPremium:false },
+  { mId:62356, title:"Whistle", host:"Vj Junior", year:2024, genre:"Horror", isPremium:false },
+  { mId:48650, title:"Orphan", host:"Vj Kriss Sweet", year:2009, genre:"Horror", isPremium:false },
+  { mId:52057, title:"A Quiet Place: Day One", host:"Vj Ice P", year:2024, genre:"Horror", isPremium:false },
+  { mId:44334, title:"Jennifer's Body (Alt)", host:"Vj Junior", year:2009, genre:"Horror", isPremium:false },
+  { mId:9735, title:"The Unborn", host:"Vj Emmy", year:2009, genre:"Horror", isPremium:false },
+  { mId:1829, title:"Happy Death Day", host:"Vj Junior", year:2017, genre:"Horror", isPremium:false },
+  { mId:20063, title:"Wolf Creek", host:"Vj Jingo", year:2005, genre:"Horror", isPremium:false },
+  { mId:39189, title:"Gangnam Zombies", host:"Vj Emmy", year:2024, genre:"Horror", isPremium:false },
+  { mId:42928, title:"Meg 2: The Trench", host:"Vj Ice P", year:2023, genre:"Action", isPremium:false },
+  { mId:47429, title:"Twins Mission", host:"Vj Jingo", year:2024, genre:"Action", isPremium:false },
+  { mId:53064, title:"Monster Summer", host:"Vj Emmy", year:2024, genre:"Action", isPremium:false },
+  { mId:20946, title:"Mission Possible", host:"Vj Muba", year:2024, genre:"Action", isPremium:false },
+  { mId:33715, title:"Blackbird", host:"Vj Emmy", year:2024, genre:"Action", isPremium:false },
+  { mId:46125, title:"Land of Bad", host:"Vj Emmy", year:2024, genre:"Action", isPremium:false },
+  { mId:54721, title:"Killer Ex", host:"Vj Ice P", year:2024, genre:"Action", isPremium:false },
+  { mId:17193, title:"The Lost World: Jurassic Park", host:"Vj Jingo", year:1997, genre:"Sci-Fi", isPremium:false },
+  { mId:14777, title:"Doom", host:"Vj Emmy", year:2005, genre:"Sci-Fi", isPremium:false },
+  { mId:7265, title:"Godzilla: King of the Monsters", host:"Vj Junior", year:2019, genre:"Sci-Fi", isPremium:false },
+  { mId:17957, title:"What Happened to Monday", host:"Vj Junior", year:2017, genre:"Sci-Fi", isPremium:false },
+  { mId:1984, title:"Justice League", host:"Vj Junior", year:2017, genre:"Sci-Fi", isPremium:false },
+  { mId:59940, title:"Edge of Tomorrow", host:"Vj Junior", year:2014, genre:"Sci-Fi", isPremium:false },
+  { mId:5957, title:"Shazam", host:"Vj Dan De", year:2019, genre:"Sci-Fi", isPremium:false },
+  { mId:57535, title:"Solo: A Star Wars Story", host:"Vj Ulio", year:2018, genre:"Sci-Fi", isPremium:false },
+  { mId:5507, title:"The Lost Valentine", host:"Vj Junior", year:2011, genre:"Romance", isPremium:false },
+  { mId:55016, title:"About Time", host:"Vj Junior", year:2013, genre:"Romance", isPremium:false },
+  { mId:4547, title:"The Reader", host:"Vj Junior", year:2008, genre:"Romance", isPremium:false },
+  { mId:17552, title:"Tristan & Isolde", host:"Vj Junior", year:2006, genre:"Romance", isPremium:false },
+  { mId:4152, title:"The Vow", host:"Vj Junior", year:2012, genre:"Romance", isPremium:false },
+  { mId:65912, title:"Palm Springs", host:"Vj Ulio", year:2020, genre:"Romance", isPremium:false },
+  { mId:3053, title:"The Blind Side", host:"Vj Junior", year:2009, genre:"Drama", isPremium:false },
+  { mId:36235, title:"Argo", host:"Vj Junior", year:2012, genre:"Drama", isPremium:false },
+  { mId:38921, title:"A Better Life", host:"Vj Junior", year:2011, genre:"Drama", isPremium:false },
+  { mId:56884, title:"12 Angry Men", host:"Vj Junior", year:1997, genre:"Drama", isPremium:false },
+  { mId:2966, title:"7 Days in Entebbe", host:"Vj Junior", year:2018, genre:"Drama", isPremium:false },
+  { mId:4941, title:"Robin Hood", host:"Vj Emmy", year:2010, genre:"Drama", isPremium:false }
 ];
 
-/* Sample video source */
-const SAMPLE_VIDEOS = [
-  'BigBuckBunny.mp4','ElephantsDream.mp4','ForBiggerBlazes.mp4',
-  'ForBiggerEscapes.mp4','ForBiggerFun.mp4','ForBiggerJoyrides.mp4',
-  'ForBiggerMeltdowns.mp4','Sintel.mp4','TearsOfSteel.mp4'
-];
-const VIDEO_BASE = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/';
+const POSTER_MAP = {
+  15957: "https://movies.ug/posters/Franka%20Potente-The%20Bourne%20Identity%20%282002%29%20vj%20Junior.jpg",
+  15308: "https://movies.ug/posters/Jenna%20Dewan-American%20Virgin%20%282009%29%20vj%20Junior.jpg",
+  11795: "https://movies.ug/posters/Nathan%20Fillion-Slither%20%282006%29%20vj%20junior.jpg",
+  12042: "https://movies.ug/posters/Ryan%20Pinkston-Full%20of%20It%20%282007%29%20vj%20soul.jpg",
+  29285: "https://movies.ug/posters/Dennis%20Quaid-GI%20Joe%20The%20Rise%20of%20Cobra%20%282009%29%20vj%20Junior.jpg",
+  13549: "https://movies.ug/posters/Megan%20Fox-Jennifers%20Body%20%282009%29%20vj%20Junior.jpg",
+  29157: "https://movies.ug/posters/Camilla%20Belle-Push%20%282009%29%20vj%20Junior.jpg",
+  14638: "https://movies.ug/posters/Nicolas%20Cage-Knowing%20%282009%29%20vj%20Junior.jpg",
+  15509: "https://movies.ug/posters/Ryan%20Kelley-Ben%2010%20Alien%20Swarm%20%282009%29%20vj%20Emmy.jpg",
+  11799: "https://movies.ug/posters/Michael%20Douglas-Basic%20Instinct%20%281992%29%20vj%20junior.jpg",
+  13231: "https://movies.ug/posters/Robert%20Wisdom-Sex%20and%20Death%20101%20%282007%29%20vj%20Kriss%20Sweet.jpg",
+  13914: "https://movies.ug/posters/Randy%20Wayne-Frat%20Party%20%282009%29%20vj%20Junior.jpg",
+  11612: "https://movies.ug/posters/Uma%20Thurman-Prime%20%282005%29%20vj%20junior.jpg",
+  14634: "https://movies.ug/posters/Dwayne%20Johnson-Race%20to%20Witch%20Mountain%20%282009%29%20vj%20Junior.jpg",
+  15959: "https://movies.ug/posters/Hugh%20Jackman-X-Men%20Origins%20Wolverine%20%282009%29%20vj%20Junior.jpg",
+  11944: "https://movies.ug/posters/Lukas%20Gage-People%20We%20Meet%20on%20Vacation%20%282026%29%20vj%20junior.jpg",
+  14338: "https://movies.ug/posters/Johnny%20Depp-Pirates%20of%20the%20Caribbean%20Dead%20Mans%20Chest%20%282006%29%20vj%20Junior.jpg",
+  15927: "https://movies.ug/posters/Adar%20Beck-Exam%20%282009%29%20vj%20Junior.jpg",
+  15342: "https://movies.ug/posters/Nicholas%20Tse-Invisible%20Target%20%282007%29%20vj%20Junior.jpg",
+  11623: "https://movies.ug/posters/Elliot%20Page-Juno%20%282007%29%20vj%20soul.jpg",
+  28949: "https://movies.ug/posters/Jake%20Gyllenhaal-Brothers%20%282009%29%20vj%20Junior.jpg",
+  13303: "https://movies.ug/posters/Greg%20Kinnear-Flash%20of%20Genius%20%282008%29%20vj%20Junior.jpg",
+  15017: "https://movies.ug/posters/Leon%20Lai-Seven%20Swords%20%282005%29%20vj%20Ice%20P.jpg",
+  13297: "https://movies.ug/posters/Asa%20Butterfield-The%20Boy%20in%20the%20Striped%20Pajamas%20%282008%29%20vj%20Ulio.jpg",
+  14822: "https://movies.ug/posters/Tiffany%20Dupont-One%20Night%20with%20the%20King%20%282006%29%20vj%20Junior.jpg",
+  13973: "https://movies.ug/posters/Jamie%20Kennedy-Son%20of%20the%20Mask%20%282005%29%20vj%20Kevo.jpg",
+  11782: "https://movies.ug/posters/Desmond%20Harrington-Exit%20Speed%20%282008%29%20vj%20emmy.jpg",
+  13382: "https://movies.ug/posters/Beyonce-Obsessed%20%282009%29%20vj%20Junior.jpg",
+  14526: "https://movies.ug/posters/James%20Purefoy-Solomon%20Kane%20%282009%29%20vj%20Junior.jpg",
+  14547: "https://apposters.b-cdn.net/laba/yo/naki/bc99.jpg",
+  19996: "https://apposters.b-cdn.net/laba/yo/naki/265667588172.jpg",
+  9539: "https://apposters.b-cdn.net/laba/yo/naki/16cc.jpg",
+  5974: "https://apposters.b-cdn.net/laba/yo/naki/a770.jpg",
+  21023: "https://apposters.b-cdn.net/laba/yo/naki/833834325601.jpg",
+  62356: "https://apposters.b-cdn.net/laba/yo/naki/zzi9jlqfHD1454.jpg",
+  48650: "https://apposters.b-cdn.net/laba/yo/naki/KBNGhPoNLA7658.jpg",
+  52057: "https://apposters.b-cdn.net/laba/yo/naki/2h753GmNRR3154.jpg",
+  44334: "https://apposters.b-cdn.net/laba/yo/naki/p0wsROaKWP3333.jpg",
+  9735: "https://apposters.b-cdn.net/laba/yo/naki/d11e.jpg",
+  1829: "https://apposters.b-cdn.net/laba/yo/naki/6d47.jpg",
+  20063: "https://apposters.b-cdn.net/laba/yo/naki/940585159338.jpg",
+  39189: "https://apposters.b-cdn.net/laba/yo/naki/urCKxWkhO29169.jpg",
+  42928: "https://apposters.b-cdn.net/laba/yo/naki/YaeFGJreSy8063.jpg",
+  47429: "https://apposters.b-cdn.net/laba/yo/naki/pZ3iDb2YLx8824.jpg",
+  53064: "https://apposters.b-cdn.net/laba/yo/naki/YzUrR0CXgI7923.jpg",
+  20946: "https://apposters.b-cdn.net/laba/yo/naki/422551746015.jpg",
+  33715: "https://apposters.b-cdn.net/laba/yo/naki/Mdd9eN8A5m2643.jpg",
+  46125: "https://apposters.b-cdn.net/laba/yo/naki/riflgBPL3S4022.jpg",
+  54721: "https://apposters.b-cdn.net/laba/yo/naki/NCKXPzw8wt6085.jpg",
+  17193: "https://apposters.b-cdn.net/laba/yo/naki/256520549608.jpg",
+  14777: "https://apposters.b-cdn.net/laba/yo/naki/3705.jpg",
+  7265: "https://apposters.b-cdn.net/laba/yo/naki/0a57.jpg",
+  17957: "https://apposters.b-cdn.net/laba/yo/naki/911591029910.jpg",
+  1984: "https://apposters.b-cdn.net/laba/yo/naki/9a4c.jpg",
+  59940: "https://apposters.b-cdn.net/laba/yo/naki/DTv3Ek0g6H3748.jpg",
+  5957: "https://apposters.b-cdn.net/laba/yo/naki/a7d0.jpg",
+  57535: "https://apposters.b-cdn.net/laba/yo/naki/fXQ4iLYrmB7114.jpg",
+  5507: "https://apposters.b-cdn.net/laba/yo/naki/b295.jpg",
+  55016: "https://apposters.b-cdn.net/laba/yo/naki/V57t096udl7266.jpg",
+  4547: "https://apposters.b-cdn.net/laba/yo/naki/3f23.jpg",
+  17552: "https://apposters.b-cdn.net/laba/yo/naki/772193134285.jpg",
+  4152: "https://apposters.b-cdn.net/laba/yo/naki/1783.jpg",
+  65912: "https://apposters.b-cdn.net/laba/yo/naki/zV6p9195.jpg",
+  3053: "https://apposters.b-cdn.net/laba/yo/naki/2b90.jpg",
+  36235: "https://apposters.b-cdn.net/laba/yo/naki/Ykc2mhsnJc7771.jpg",
+  38921: "https://apposters.b-cdn.net/laba/yo/naki/nzkEzVqEnO7020.jpg",
+  56884: "https://apposters.b-cdn.net/laba/yo/naki/zVV8IyWgwF5313.jpg",
+  2966: "https://apposters.b-cdn.net/laba/yo/naki/ab62.jpg",
+  4941: "https://apposters.b-cdn.net/laba/yo/naki/1112.jpg"
+};
+
+const FALLBACK_POSTER = "https://picsum.photos/seed/sr-fallback/600/900";
+function posterUrl(m) { return POSTER_MAP[m.mId] || FALLBACK_POSTER; }
+function playerUrl(m) { return `https://movies.ug/play.php?mId=${m.mId}`; }
 
 /* =============================================================
-   DOM SHORTCUTS
+   PAGINATION
    ============================================================= */
-const homeView       = document.getElementById('homeView');
-const playerView     = document.getElementById('playerView');
+const PER_PAGE = 12;
+let currentList = [];
+let currentPage = 1;
+let currentFilterKey = 'trending';
+let currentTitle = 'Trending Now';
+
 const gridRoot       = document.getElementById('gridRoot');
-const relatedGrid    = document.getElementById('relatedGrid');
 const sectionTitleEl = document.getElementById('sectionTitle');
-const sectionCountEl = document.getElementById('sectionCount');
-const relatedGenreEl = document.getElementById('relatedGenre');
-const relatedCountEl = document.getElementById('relatedCount');
-const playerVideo    = document.getElementById('playerVideo');
 const searchInput    = document.getElementById('searchInput');
+const paginationEl   = document.getElementById('pagination');
 
-/* =============================================================
-   CARD TEMPLATE
-   ============================================================= */
 function makeCard(m) {
   return `
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 movie-col">
-      <a href="#play-${m.mId}"
-         class="poster-card-link"
-         data-mid="${m.mId}"
-         data-title="${m.title}"
-         data-genre="${m.genre}">
+      <a href="${playerUrl(m)}"
+         target="_blank" rel="noopener noreferrer"
+         class="poster-card-link" data-mid="${m.mId}" data-title="${m.title}">
         <div class="poster-frame">
           <div class="poster-art">${m.title}</div>
+          <img class="poster-img" src="${posterUrl(m)}" alt="${m.title} (${m.year}) ${m.host}"
+               loading="lazy" decoding="async" referrerpolicy="no-referrer"
+               onerror="this.onerror=null; this.src='${FALLBACK_POSTER}';">
           <div class="badge-row">
             <span class="card-badge ${m.isPremium ? 'badge-premium' : 'badge-free'}">
               ${m.isPremium ? 'PREMIUM' : 'FREE'}
             </span>
             <span class="card-vj-badge">${m.host}</span>
           </div>
-          <div class="card-play-overlay">
-            <div class="play-circle-btn"><i class="fa fa-play"></i></div>
-          </div>
+          <div class="card-play-overlay"><div class="play-circle-btn"><i class="fa fa-play"></i></div></div>
         </div>
         <div class="movie-info">
           <div class="movie-title" title="${m.title}">${m.title}</div>
@@ -866,18 +1245,61 @@ function makeCard(m) {
   `;
 }
 
-/* =============================================================
-   FILTERS
-   ============================================================= */
-const FILTERS = {
-  trending: { title: 'Trending Now',      fn: () => CATALOG },
-  latest:   { title: 'Latest Releases',   fn: () => [...CATALOG].sort((a,b) => b.year - a.year) },
-  random:   { title: 'Random Picks',      fn: () => [...CATALOG].sort(() => Math.random() - 0.5) },
-  free:     { title: 'Free Picks',        fn: () => CATALOG.filter(m => !m.isPremium) },
-  series:   { title: 'TV Series',         fn: () => CATALOG.filter(m => m.genre === 'Series') }
-};
+function renderPagination() {
+  const total = currentList.length;
+  const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+  let html = '';
+  html += `<li class="${currentPage === 1 ? 'disabled' : ''}">
+    <a href="#" data-page="${currentPage - 1}"><i class="fa fa-angle-left"></i></a>
+  </li>`;
+  const pages = [];
+  if (totalPages <= 7) {
+    for (let i = 1; i <= totalPages; i++) pages.push(i);
+  } else if (currentPage <= 4) {
+    pages.push(1, 2, 3, 4, 5, '...', totalPages);
+  } else if (currentPage >= totalPages - 3) {
+    pages.push(1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+  } else {
+    pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
+  }
+  pages.forEach(p => {
+    if (p === '...') html += `<li class="disabled"><span>…</span></li>`;
+    else html += `<li class="${p === currentPage ? 'active' : ''}">
+      <a href="#" data-page="${p}">${p}</a>
+    </li>`;
+  });
+  html += `<li class="${currentPage === totalPages ? 'disabled' : ''}">
+    <a href="#" data-page="${currentPage + 1}"><i class="fa fa-angle-right"></i></a>
+  </li>`;
+  paginationEl.innerHTML = html;
+  paginationEl.querySelectorAll('a[data-page]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const p = parseInt(a.dataset.page, 10);
+      if (p >= 1 && p <= totalPages && p !== currentPage) goToPage(p);
+    });
+  });
+}
 
-let currentFilter = 'trending';
+function goToPage(page) {
+  currentPage = page;
+  const start = (page - 1) * PER_PAGE;
+  const pageItems = currentList.slice(start, start + PER_PAGE);
+  sectionTitleEl.textContent = currentTitle;
+  gridRoot.innerHTML = pageItems.length
+    ? pageItems.map(makeCard).join('')
+    : `<div class="col-xs-12"><div class="empty-state"><i class="fa fa-film"></i> No titles on this page.</div></div>`;
+  renderPagination();
+  window.scrollTo({ top: 400, behavior: 'smooth' });
+}
+
+const FILTERS = {
+  trending: { title:'Trending Now',    fn:() => CATALOG },
+  latest:   { title:'Latest Releases', fn:() => [...CATALOG].sort((a,b)=>b.year-a.year) },
+  random:   { title:'Random Picks',    fn:() => [...CATALOG].sort(()=>Math.random()-0.5) },
+  free:     { title:'Free Picks',      fn:() => CATALOG.filter(m=>!m.isPremium) },
+  series:   { title:'TV Series',       fn:() => CATALOG.filter(m=>m.genre==='Series') }
+};
 
 function setActivePill(key) {
   document.querySelectorAll('.filter-pill[data-filter]').forEach(p => {
@@ -885,198 +1307,278 @@ function setActivePill(key) {
   });
 }
 
-function renderHomeGrid(list, title, countLabel) {
-  sectionTitleEl.textContent = title;
-  sectionCountEl.textContent = countLabel || `${list.length} titles`;
-  if (!list.length) {
-    gridRoot.innerHTML = `
-      <div class="col-xs-12">
-        <div class="empty-state">
-          <i class="fa fa-film"></i>
-          No titles match this filter yet.
-        </div>
-      </div>`;
-    return;
-  }
-  gridRoot.innerHTML = list.map(makeCard).join('');
-}
-
 function applyFilter(key) {
-  const f = FILTERS[key];
-  if (!f) return;
-  currentFilter = key;
-  setActivePill(key);
-  searchInput.value = '';
-  const list = f.fn();
-  const countLabel = key === 'free'
-    ? `${list.length} free titles (premium hidden)`
-    : `${list.length} titles`;
-  renderHomeGrid(list, f.title, countLabel);
-  // Scroll to grid on filter change
-  window.scrollTo({ top: 500, behavior: 'smooth' });
+  const f = FILTERS[key]; if (!f) return;
+  currentFilterKey = key; currentTitle = f.title;
+  currentList = f.fn(); currentPage = 1;
+  setActivePill(key); searchInput.value = ''; goToPage(1);
 }
 
-/* Pill handlers */
 document.querySelectorAll('.filter-pill[data-filter]').forEach(pill => {
-  pill.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (location.hash) { location.hash = ''; }
-    applyFilter(pill.dataset.filter);
-  });
+  pill.addEventListener('click', e => { e.preventDefault(); applyFilter(pill.dataset.filter); });
 });
-
-/* Filter jumps (from hero/nav/footer) */
 document.querySelectorAll('[data-filter-jump]').forEach(el => {
-  el.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (location.hash) { location.hash = ''; }
-    setTimeout(() => applyFilter(el.dataset.filterJump), 0);
-  });
+  el.addEventListener('click', e => { e.preventDefault(); applyFilter(el.dataset.filterJump); });
 });
-
-/* Genre jumps */
 document.querySelectorAll('[data-genre-jump]').forEach(el => {
-  el.addEventListener('click', (e) => {
+  el.addEventListener('click', e => {
     e.preventDefault();
-    if (location.hash) { location.hash = ''; }
-    setTimeout(() => {
-      const g = el.dataset.genreJump;
-      const list = CATALOG.filter(m => m.genre === g);
-      setActivePill(null);
-      searchInput.value = '';
-      renderHomeGrid(list, `${g} Titles`, `${list.length} titles`);
-      window.scrollTo({ top: 500, behavior: 'smooth' });
-    }, 0);
+    const g = el.dataset.genreJump;
+    currentFilterKey = null; currentTitle = `${g} Movies`;
+    currentList = CATALOG.filter(m => m.genre === g);
+    currentPage = 1; setActivePill(null); searchInput.value = ''; goToPage(1);
   });
 });
-
-/* =============================================================
-   SEARCH — filters visible cards (works on home)
-   ============================================================= */
-searchInput.addEventListener('input', (e) => {
-  const q = e.target.value.toLowerCase();
-  document.querySelectorAll('#gridRoot .movie-col').forEach(col => {
-    const link = col.querySelector('.poster-card-link');
-    if (!link) return;
-    col.style.display = (link.dataset.title || '').toLowerCase().includes(q) ? '' : 'none';
-  });
-});
-
-/* =============================================================
-   PLAYER VIEW RENDERING
-   ============================================================= */
-function renderPlayer(movie) {
-  // Header
-  document.getElementById('playerTitle').textContent = `${movie.title} (${movie.year})`;
-  document.getElementById('playerMid').textContent   = `mId: ${movie.mId}`;
-  document.getElementById('playerHost').textContent  = movie.host;
-  document.getElementById('playerGenre').textContent = movie.genre;
-
-  document.getElementById('playerTier').innerHTML = movie.isPremium
-    ? '<span class="premium-chip">PREMIUM</span>'
-    : '<span class="free-chip">FREE</span>';
-
-  // Video
-  const idx = Math.abs(movie.mId) % SAMPLE_VIDEOS.length;
-  playerVideo.src = VIDEO_BASE + SAMPLE_VIDEOS[idx];
-  playerVideo.load();
-  const pp = playerVideo.play();
-  if (pp && pp.catch) pp.catch(() => {});
-
-  // Description
-  document.getElementById('playerDesc').innerHTML =
-    `<strong>${movie.title}</strong> (${movie.year}) — ${movie.plot} ` +
-    `Hosted by <strong>${movie.host}</strong>. Genre: <strong>${movie.genre}</strong>. ` +
-    `Sample video is used in this study prototype; production would stream ` +
-    `<code>play.php?mId=${movie.mId}</code>.`;
-
-  // Related titles (same genre, exclude self)
-  const related = CATALOG.filter(m => m.genre === movie.genre && m.mId !== movie.mId).slice(0, 12);
-  relatedGenreEl.textContent = movie.genre;
-  relatedCountEl.textContent = `${related.length} more`;
-
-  if (!related.length) {
-    relatedGrid.innerHTML = `
-      <div class="col-xs-12">
-        <div class="empty-state">
-          <i class="fa fa-film"></i>
-          No other <strong>${movie.genre}</strong> titles in the catalog yet.
-        </div>
-      </div>`;
+searchInput.addEventListener('input', e => {
+  const q = e.target.value.toLowerCase().trim();
+  const base = FILTERS[currentFilterKey] ? FILTERS[currentFilterKey].fn() : CATALOG;
+  if (!q) {
+    currentList = base;
+    currentTitle = FILTERS[currentFilterKey] ? FILTERS[currentFilterKey].title : 'Trending Now';
   } else {
-    relatedGrid.innerHTML = related.map(makeCard).join('');
+    currentList = base.filter(m =>
+      m.title.toLowerCase().includes(q) ||
+      m.host.toLowerCase().includes(q) ||
+      m.genre.toLowerCase().includes(q));
+    currentTitle = `Search: "${e.target.value}"`;
   }
-}
-
-/* =============================================================
-   ROUTING (hash-based)
-   ============================================================= */
-function showHome() {
-  homeView.style.display = '';
-  playerView.style.display = 'none';
-  try { playerVideo.pause(); } catch(_) {}
-  playerVideo.removeAttribute('src');
-  playerVideo.load();
-  window.scrollTo({ top: 0, behavior: 'auto' });
-}
-
-function showPlayer(movie) {
-  if (!movie) { location.hash = ''; return; }
-  homeView.style.display = 'none';
-  playerView.style.display = '';
-  window.scrollTo({ top: 0, behavior: 'auto' });
-  renderPlayer(movie);
-}
-
-function route() {
-  const m = location.hash.match(/^#play-(\d+)$/);
-  if (m) {
-    const movie = CATALOG.find(x => x.mId === parseInt(m[1], 10));
-    if (movie) { showPlayer(movie); return; }
-  }
-  showHome();
-}
-
-window.addEventListener('hashchange', route);
-
-/* Back button */
-document.getElementById('playerBack').addEventListener('click', (e) => {
-  e.preventDefault();
-  if (history.length > 1) history.back();
-  else location.hash = '';
+  currentPage = 1; goToPage(1);
 });
-
-/* Brand / Home links → clear hash */
-document.getElementById('brandLink').addEventListener('click', (e) => {
-  e.preventDefault();
-  location.hash = '';
+['brandLink','homeLink','footerHomeLink'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('click', e => {
+    e.preventDefault(); applyFilter('trending');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
 });
-document.getElementById('homeLink').addEventListener('click', (e) => {
-  e.preventDefault();
-  location.hash = '';
-});
-document.getElementById('footerHomeLink').addEventListener('click', (e) => {
-  e.preventDefault();
-  location.hash = '';
-});
-
-/* =============================================================
-   HERO WATCH BUTTON
-   ============================================================= */
-document.getElementById('heroWatchBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  location.hash = '#play-10001';
-});
-
-/* =============================================================
-   INIT
-   ============================================================= */
 applyFilter('trending');
-route();
 
-/* Copyright */
 document.getElementById('copyrightLine').innerHTML =
-  `&copy; ${new Date().getFullYear()} STUDYREEL &bull; Study prototype &bull; Not affiliated with any streaming service.`;
+  `&copy; ${new Date().getFullYear()} MUGGOWATCH &bull; Powered by movies.ug &bull; ${CATALOG.length} titles`;
+
+/* =============================================================
+   ★★★ BRAND VISITOR COUNTER — UNIQUE PER DEVICE, FOREVER ★★★
+   
+   FIXES APPLIED:
+   1. Uses localStorage (not sessionStorage) → device counted once, forever
+   2. Fresh namespace '-v2' → starts at 0, shows real uniques only
+   3. Migration carries old session flag to localStorage so no double-count
+   4. Animates the navbar "brand" counter when number updates
+   5. All 5 counter locations update together (nav, inline, footer, modal, banner)
+   ============================================================= */
+const COUNTER_NAMESPACE = 'kisindeyasin-firimu-v2';  // ← fresh start at 0
+const COUNTER_KEY       = 'total-visits';
+
+function setVisitorCount(n) {
+  const formatted = Number(n).toLocaleString();
+  const ids = ['visitorCountNav','visitorCountInline','visitorCountFooter','deviceGlobalValue','hsVisitorCount'];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // If this is the brand/navbar counter and the number actually changed,
+    // trigger a small pulse animation to draw attention to the update.
+    if (id === 'visitorCountNav') {
+      const prev = el.textContent;
+      el.textContent = formatted;
+      if (prev !== '…' && prev !== formatted && !isNaN(parseInt(prev.replace(/,/g,''),10))) {
+        el.classList.remove('bump');
+        void el.offsetWidth;         // force reflow so animation restarts
+        el.classList.add('bump');
+        setTimeout(() => el.classList.remove('bump'), 600);
+      }
+    } else {
+      el.textContent = formatted;
+    }
+  });
+}
+
+async function updateVisitorCounter() {
+  const COUNTED_KEY = 'mw_visitor_counted';
+
+  // One-time migration: if the old session-based system already counted
+  // this device, copy that flag to localStorage so we don't double-count.
+  try {
+    if (sessionStorage.getItem(COUNTED_KEY) === '1' &&
+        localStorage.getItem(COUNTED_KEY) !== '1') {
+      localStorage.setItem(COUNTED_KEY, '1');
+    }
+  } catch {}
+
+  // THE FIX: use localStorage (permanent) instead of sessionStorage (per-tab)
+  let alreadyCounted = false;
+  try { alreadyCounted = localStorage.getItem(COUNTED_KEY) === '1'; } catch {}
+
+  // If already counted → GET (read only, no increment)
+  // If new device      → HIT (increments by 1, then we set the flag)
+  const action = alreadyCounted ? 'get' : 'hit';
+  const url = `https://abacus.jasoncameron.dev/${action}/${COUNTER_NAMESPACE}/${COUNTER_KEY}`;
+
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const count = Number(data.value) || 0;
+    setVisitorCount(count);
+
+    // Only set the flag AFTER a successful hit — so if the network
+    // fails on first visit, the device will try to count again next load.
+    if (!alreadyCounted) {
+      try { localStorage.setItem(COUNTED_KEY, '1'); } catch {}
+    }
+    console.log('[MuggoWatch] Unique visitors:', count, '(action:', action + ')');
+  } catch (err) {
+    console.warn('[MuggoWatch] Visitor counter failed:', err);
+    ['visitorCountNav','visitorCountInline','visitorCountFooter','deviceGlobalValue','hsVisitorCount']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '—';
+      });
+  }
+}
+updateVisitorCounter();
+setInterval(updateVisitorCounter, 60000);
+
+/* =============================================================
+   DEVICE TRACKER (per-device, local)
+   ============================================================= */
+const DEVICE_ID_KEY   = 'mw_device_id';
+const FIRST_VISIT_KEY = 'mw_first_visit';
+const LAST_VISIT_KEY  = 'mw_last_visit';
+const VISIT_COUNT_KEY = 'mw_visit_count';
+
+function generateDeviceId() {
+  const rand  = Math.random().toString(36).substring(2, 8).toUpperCase();
+  const stamp = Date.now().toString(36).slice(-4).toUpperCase();
+  return 'MW-' + rand + '-' + stamp;
+}
+
+function getOrCreateDevice() {
+  const now = new Date().toISOString();
+  let id = localStorage.getItem(DEVICE_ID_KEY);
+  if (!id) {
+    id = generateDeviceId();
+    localStorage.setItem(DEVICE_ID_KEY, id);
+    localStorage.setItem(FIRST_VISIT_KEY, now);
+    localStorage.setItem(VISIT_COUNT_KEY, '0');
+  }
+  let visits = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0', 10) + 1;
+  localStorage.setItem(VISIT_COUNT_KEY, String(visits));
+  localStorage.setItem(LAST_VISIT_KEY, now);
+  return {
+    id, visits,
+    firstVisit: localStorage.getItem(FIRST_VISIT_KEY),
+    lastVisit: now
+  };
+}
+
+const deviceInfo = getOrCreateDevice();
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  try {
+    return new Date(iso).toLocaleDateString(undefined, {
+      year:'numeric', month:'short', day:'numeric',
+      hour:'2-digit', minute:'2-digit'
+    });
+  } catch { return '—'; }
+}
+
+const deviceBadge = document.getElementById('deviceBadge');
+if (deviceBadge) {
+  deviceBadge.textContent = `Your device: ${deviceInfo.id} · ${deviceInfo.visits} visit${deviceInfo.visits === 1 ? '' : 's'}`;
+}
+
+const hsDeviceIdEl = document.getElementById('hsDeviceId');
+if (hsDeviceIdEl) hsDeviceIdEl.textContent = deviceInfo.id;
+
+function populateSupportModal() {
+  document.getElementById('deviceIdValue').textContent = deviceInfo.id;
+  document.getElementById('deviceVisitValue').textContent =
+    deviceInfo.visits + (deviceInfo.visits === 1 ? ' visit' : ' visits');
+  document.getElementById('deviceFirstValue').textContent = formatDate(deviceInfo.firstVisit);
+  document.getElementById('deviceLastValue').textContent  = formatDate(deviceInfo.lastVisit);
+}
+
+const supportModal = document.getElementById('supportModal');
+const supportFab   = document.getElementById('supportFab');
+const footerSupportLink = document.getElementById('footerSupportLink');
+
+function openSupport(e) {
+  if (e) e.preventDefault();
+  populateSupportModal();
+  supportModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSupport() {
+  supportModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+supportFab.addEventListener('click', openSupport);
+if (footerSupportLink) footerSupportLink.addEventListener('click', openSupport);
+supportModal.querySelectorAll('[data-close-support]').forEach(el => {
+  el.addEventListener('click', closeSupport);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && supportModal.classList.contains('open')) closeSupport();
+});
+
+document.getElementById('copyMomoBtn').addEventListener('click', async function () {
+  const num = '+256769074309';
+  try { await navigator.clipboard.writeText(num); }
+  catch {
+    const ta = document.createElement('textarea');
+    ta.value = num; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+  }
+  const btn = this;
+  btn.textContent = 'Copied!'; btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+});
+
+/* =============================================================
+   HOME SUPPORT BANNER
+   ============================================================= */
+const homeSupportBanner = document.getElementById('homeSupportBanner');
+const HS_DISMISS_KEY = 'mw_hs_dismissed';
+
+const hsCloseBtn = document.getElementById('hsCloseBtn');
+if (hsCloseBtn) {
+  hsCloseBtn.addEventListener('click', () => {
+    homeSupportBanner.classList.add('dismissed');
+    try { sessionStorage.setItem(HS_DISMISS_KEY, '1'); } catch {}
+  });
+}
+try {
+  if (sessionStorage.getItem(HS_DISMISS_KEY) === '1') {
+    homeSupportBanner.classList.add('dismissed');
+  }
+} catch {}
+
+const hsCopyMomo = document.getElementById('hsCopyMomo');
+if (hsCopyMomo) {
+  hsCopyMomo.addEventListener('click', async function () {
+    const num = '+256769074309';
+    try { await navigator.clipboard.writeText(num); }
+    catch {
+      const ta = document.createElement('textarea');
+      ta.value = num; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    this.classList.add('copied');
+    const tag = this.querySelector('.hs-copy-tag');
+    const orig = tag.textContent;
+    tag.textContent = 'Copied!';
+    setTimeout(() => {
+      tag.textContent = orig;
+      this.classList.remove('copied');
+    }, 1600);
+  });
+}
+
+const hsDetailsBtn = document.getElementById('hsDetailsBtn');
+if (hsDetailsBtn) hsDetailsBtn.addEventListener('click', openSupport);
 </script>
 </body>
 </html>
